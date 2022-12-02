@@ -55,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: 270,
               margin: const EdgeInsets.only(top: 40.0),
               decoration: BoxDecoration(
-                  color: facebookColor,
+                  color: facebookLogoColor,
                   borderRadius: BorderRadius.circular(8.0),
                   boxShadow: const [
                     BoxShadow(
@@ -145,13 +145,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: GoogleFonts.oswald(color: secondColor, fontSize: 15.0),
               ),
             ),
-            const SizedBox(height: 5.0,),
+            const SizedBox(
+              height: 5.0,
+            ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.0),
-              child: Divider(thickness: 2.5, color: firstColor,),
+              child: Divider(
+                thickness: 2.5,
+                color: firstColor,
+              ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.pushNamed(context, LoginScreen.routeName);
               },
               hoverColor: firstColor,
@@ -164,11 +169,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           text: "Have an account?",
                           style: GoogleFonts.roboto(
                               color: Colors.black87, fontSize: 15.0)),
-                      const WidgetSpan(child: SizedBox(width: 5.0,)),
+                      const WidgetSpan(
+                          child: SizedBox(
+                        width: 5.0,
+                      )),
                       TextSpan(
                           text: "Log in",
                           style: GoogleFonts.roboto(
-                              color: facebookColor, fontSize: 18.0))
+                              color: facebookLogoColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0))
                     ]),
                   )),
             ),

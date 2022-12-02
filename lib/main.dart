@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myreceipeapp/screens/bottomnavigationbar.dart';
+import 'package:myreceipeapp/screens/bottomnavigationbarscreens/addpost_screen.dart';
+import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
+import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myfavouriterecipes_screen.dart';
+import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myprofile_screen.dart';
 import 'package:myreceipeapp/screens/login_screen.dart';
 import 'package:myreceipeapp/screens/signup_screen.dart';
 import 'package:myreceipeapp/screens/welcome_screen.dart';
@@ -19,6 +24,11 @@ class MyApp extends StatelessWidget {
       routes: {
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+        BottomNavigationBarScreen.routeName: (context) => const BottomNavigationBarScreen(),
+        AddPostScreen.routeName: (context) => const AddPostScreen(),
+        FavouriteRecipesScreen.routeName: (context) => const FavouriteRecipesScreen(),
+        MyProfileScreen.routeName: (context) => const MyProfileScreen(),
       },
       home: const WelcomeScreen(),
     );
