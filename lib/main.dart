@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myreceipeapp/allrecipescategories/allrecipes_screen.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbar.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/addpost_screen.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         AddPostScreen.routeName: (context) => const AddPostScreen(),
         FavouriteRecipesScreen.routeName: (context) => const FavouriteRecipesScreen(),
         MyProfileScreen.routeName: (context) => const MyProfileScreen(),
+        // AllRecipesScreen.routeName: (context) => const AllRecipesScreen(),
       },
       home: const WelcomeScreen(),
     );
