@@ -58,7 +58,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   style: GoogleFonts.oswald(color: secondColor, fontSize: 15.0),
                 ),
               ),
-              const SizedBox(height: 10.0,),
+               SizedBox(height: 10.0,),
             ],
           ),
         ),
