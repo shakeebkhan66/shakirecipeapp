@@ -27,15 +27,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Container(
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.only(top: 120.0, left: 25.0),
-                  // child: Text(
-                  //   "Enjoy",
-                  //   style: GoogleFonts.audiowide(
-                  //     color: Colors.black87,
-                  //     fontSize: 35.0,
-                  //     fontWeight: FontWeight.w800,
-                  //     letterSpacing: 1.0
-                  //   )
-                  // ),
                   child: AnimatedTextKit(
                     repeatForever: true,
                     pause: const Duration(seconds: 20),

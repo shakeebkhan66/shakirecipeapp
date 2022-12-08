@@ -99,7 +99,7 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                 ),
                 const SizedBox(width: 8.0,),
                 Text("shakeeb_khan", style: GoogleFonts.acme(fontSize: 13.0, fontWeight: FontWeight.w200),),
-                const SizedBox(width: 180.0,),
+                const SizedBox(width: 174.0,),
                 IconButton(onPressed: (){},
                     icon: const Icon(CupertinoIcons.ellipsis_vertical, color: firstColor,))
               ],

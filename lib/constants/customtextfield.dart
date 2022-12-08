@@ -29,17 +29,24 @@ class CustomTextField extends StatelessWidget {
 
 
 class CustomTextField1 extends StatelessWidget {
-  String? text;
-  CustomTextField1({Key? key, required this.text}) : super(key: key);
+  String? hintText;
+  String? labelText;
+  IconData? icon;
+
+  CustomTextField1({Key? key, required this.hintText, this.labelText, this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextFormField(
+        cursorColor: firstColor,
         decoration: InputDecoration(
-            hintText: text,
-            hintStyle: TextStyle(color: firstColor.withOpacity(0.5)),
+          prefixIcon: Icon(icon, color: firstColor,),
+            hintText: hintText,
+            hintStyle: TextStyle(color: Colors.grey.withOpacity(0.4)),
+            labelText: labelText,
+            labelStyle: const TextStyle(color: firstColor, fontSize: 12.0, fontWeight: FontWeight.w500),
             border: UnderlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             enabledBorder: UnderlineInputBorder(

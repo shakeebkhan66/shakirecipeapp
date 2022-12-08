@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myreceipeapp/constants/custom_circletabindicator.dart';
+import 'package:myreceipeapp/screens/bottomnavigationbarscreens/addpost_screen.dart';
+import 'package:myreceipeapp/screens/editprofile_screen.dart';
+import 'package:myreceipeapp/screens/welcome_screen.dart';
 
 import '../../constants/colors.dart';
 import '../../models/recipesmodel_class.dart';
@@ -37,6 +40,55 @@ class _MyProfileScreenState extends State<MyProfileScreen>
     RecipesModelClass(text: "Salad", image: "assets/images/salad.jpg"),
   ];
 
+  // TODO Logout Function
+  logoutFunction() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: const Padding(
+                padding: EdgeInsets.only(left: 12.0),
+                child: Text(
+                  "Do you want to logout?",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                )),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MaterialButton(
+                    color: Colors.redAccent,
+                    onPressed: () {
+                      // Constants.preferences?.setBool("loggedIn", false);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (ctx) => const WelcomeScreen()));
+                    },
+                    child: const Text(
+                      "Yes",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  MaterialButton(
+                    color: Colors.green,
+                    onPressed: () {
+                      Navigator.pushNamed(context, MyProfileScreen.routeName);
+                    },
+                    child: const Text(
+                      "No",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              )
+            ],
+          );
+        });
+  }
+
   TabController? _tabController;
   @override
   void initState() {
@@ -51,11 +103,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
         appBar: AppBar(
           backgroundColor: secondColor,
           elevation: 0.9,
-          leading: const Icon(
-            Icons.arrow_back_ios_new,
-            color: firstColor,
-            size: 20.0,
-          ),
+          automaticallyImplyLeading: false,
           title: Text(
             "shakeebkhancutie",
             style: GoogleFonts.roboto(
@@ -65,7 +113,9 @@ class _MyProfileScreenState extends State<MyProfileScreen>
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, AddPostScreen.routeName);
+                },
                 icon: const Icon(
                   Icons.add_box,
                   color: firstColor,
@@ -73,9 +123,9 @@ class _MyProfileScreenState extends State<MyProfileScreen>
             Padding(
               padding: const EdgeInsets.only(right: 5.0),
               child: IconButton(
-                  onPressed: () {},
+                  onPressed: logoutFunction,
                   icon: const Icon(
-                    Icons.menu_outlined,
+                    Icons.exit_to_app_rounded,
                     color: firstColor,
                   )),
             )
@@ -168,7 +218,9 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, EditProfileScreen.routeName);
+                        },
                         splashColor: secondColor,
                         hoverColor: firstColor,
                         minWidth: 300,
