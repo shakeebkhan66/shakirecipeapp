@@ -4,13 +4,18 @@ import 'colors.dart';
 
 class CustomTextField extends StatelessWidget {
   String? text;
-  CustomTextField({Key? key, required this.text}) : super(key: key);
+  final TextEditingController myController;
+  final String? Function(String?)? validator;
+  CustomTextField({Key? key, required this.text, required this.myController, required this.validator}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TextFormField(
+        controller: myController,
+        validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
             hintText: text,
             hintStyle: TextStyle(color: firstColor.withOpacity(0.5)),

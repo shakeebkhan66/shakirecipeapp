@@ -5,11 +5,12 @@ import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myfavouriterecipes_screen.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myprofile_screen.dart';
 import 'package:myreceipeapp/screens/editprofile_screen.dart';
-import 'package:myreceipeapp/screens/login_screen.dart';
-import 'package:myreceipeapp/screens/signup_screen.dart';
+import 'package:myreceipeapp/authentication/login_screen.dart';
+import 'package:myreceipeapp/authentication/signup_screen.dart';
 import 'package:myreceipeapp/screens/welcome_screen.dart';
 
-void main() {
+void main() async{
+
   runApp(const MyApp());
 }
 

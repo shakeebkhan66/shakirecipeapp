@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myreceipeapp/constants/colors.dart';
 import 'package:myreceipeapp/constants/custom_button.dart';
-import 'package:myreceipeapp/screens/signup_screen.dart';
+import 'package:myreceipeapp/authentication/signup_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
