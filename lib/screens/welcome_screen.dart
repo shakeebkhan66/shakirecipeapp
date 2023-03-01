@@ -26,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: [
                 Container(
                   alignment: Alignment.topLeft,
-                  padding: const EdgeInsets.only(top: 120.0, left: 25.0),
+                  padding: const EdgeInsets.only(top: 100.0, left: 25.0),
                   child: AnimatedTextKit(
                     repeatForever: true,
                     pause: const Duration(seconds: 20),
@@ -89,6 +89,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       "assets/images/wel.png",
                       fit: BoxFit.cover,
                     )),
+
                 // InkWell(
                 //   hoverColor: Colors.white,
                 //   highlightColor: thirdColor,
@@ -119,6 +120,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 //     ),
                 //   ),
                 // )
+
                 CustomButton(text: "Get started", color: secondColor, onPressed: (){
                   Navigator.pushNamed(context, SignUpScreen.routeName);
                 })

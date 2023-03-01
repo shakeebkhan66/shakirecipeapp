@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myreceipeapp/api/register_api.dart';
 import 'package:myreceipeapp/constants/colors.dart';
-import 'package:myreceipeapp/constants/custom_button.dart';
 import 'package:myreceipeapp/authentication/login_screen.dart';
 
 import '../constants/customtextfield.dart';
@@ -42,7 +40,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // TODO Instance of ApiScreen
   ApiScreen apiScreen = ApiScreen();
-
+  bool isPassword = true;
+  bool isConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return null;
                     }
                   },
-                  text: "Mobile Number or Email",
+                  text: "Email",
                 ),
                 const SizedBox(height: 10.0),
                 CustomTextField(
@@ -180,8 +179,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     text: "Username"
                 ),
                 const SizedBox(height: 10.0),
-                CustomTextField(
+                CustomTextFieldPassword(
+                    isObscure: isPassword,
                     myController: passwordController,
+                     icon: IconButton(
+                    onPressed: (){
+                      setState(() {
+                        isPassword = !isPassword;
+                      });
+                    },
+                    icon: Icon(
+                      isPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: isPassword ? firstColor : Colors.blueGrey,
+                    ),
+                  ),
                     validator: (String? value){
                       if (value!.isEmpty) {
                         return 'Please enter password';
@@ -191,10 +204,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       }
                     },
-                    text: "Password"
+                    text: "Password",
                 ),
                 const SizedBox(height: 10.0),
-                CustomTextField(
+                CustomTextFieldPassword(
+                    isObscure: isConfirmPassword,
+                    icon: IconButton(
+                      onPressed: (){
+                        setState(() {
+                          isConfirmPassword = !isConfirmPassword;
+                        });
+                      },
+                      icon: Icon(
+                        isConfirmPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: isConfirmPassword ? firstColor : Colors.blueGrey,
+                      ),
+                    ),
                     myController: confirmPasswordController,
                     validator: (String? value){
                       if(value!.isEmpty){
@@ -224,6 +251,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         confirmPasswordController.text.toString(),
                         context,
                       );
+                      usernameController.clear();
+                      emailController.clear();
+                      fNameController.clear();
+                      passwordController.clear();
+                      confirmPasswordController.clear();
                     }else{
                       print("Failed to validate");
                     }

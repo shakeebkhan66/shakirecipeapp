@@ -13,7 +13,7 @@ class FavouriteRecipesScreen extends StatefulWidget {
 class _FavouriteRecipesScreenState extends State<FavouriteRecipesScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: secondColor,
       body: Center(
         child: Text("Favourite Recipes Screen"),

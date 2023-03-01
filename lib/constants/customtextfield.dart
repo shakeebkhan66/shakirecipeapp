@@ -32,6 +32,40 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
+class CustomTextFieldPassword extends StatelessWidget {
+  String? text;
+  final TextEditingController myController;
+  final String? Function(String?)? validator;
+  Widget? icon;
+  bool isObscure;
+  CustomTextFieldPassword({Key? key, required this.isObscure, this.icon, required this.text, required this.myController, required this.validator}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: TextFormField(
+        controller: myController,
+        validator: validator,
+        obscureText: isObscure,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        decoration: InputDecoration(
+          suffixIcon: icon,
+            hintText: text,
+            hintStyle: TextStyle(color: firstColor.withOpacity(0.5)),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black54),
+                borderRadius: BorderRadius.circular(10.0)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: firstColor),
+                borderRadius: BorderRadius.circular(10.0))),
+      ),
+    );
+  }
+}
+
 
 class CustomTextField1 extends StatelessWidget {
   String? hintText;
