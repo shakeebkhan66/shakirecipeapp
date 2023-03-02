@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myreceipeapp/allrecipescategories/recipesdisplay/recipedetail_screen.dart';
 import 'package:myreceipeapp/api/register_api.dart';
-
 import '../constants/colors.dart';
 import '../models/AllRecipesModel.dart';
+
 
 class AllRecipes extends StatefulWidget {
   static const routeName = '/allRecipesScreen';
@@ -18,11 +18,11 @@ class AllRecipes extends StatefulWidget {
 }
 
 class _AllRecipesScreenState extends State<AllRecipes> {
-
   // TODO INSTANCE OF API SCREEN
   ApiScreen apiScreen = ApiScreen();
 
-  String baseUrl ="http://192.168.42.145:8000";
+  String baseUrl = "http://192.168.42.43:8000";
+  bool isLoaded = false;
 
   // TODO Refresh List Function
   Future<void> refreshList() async {
@@ -32,12 +32,9 @@ class _AllRecipesScreenState extends State<AllRecipes> {
     });
   }
 
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    apiScreen.getAllRecipes(context);
     refreshList();
   }
 
@@ -52,11 +49,15 @@ class _AllRecipesScreenState extends State<AllRecipes> {
           title: Text(
             "Skabapp",
             style: GoogleFonts.audiowide(
-                fontWeight: FontWeight.bold, color: firstColor),
+                fontWeight: FontWeight.bold, color: darkJungleGreenColor),
           ),
+          leading: IconButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_outlined, color: firstColor,)),
         ),
         body: SafeArea(
-
           // child: ListView(
           //   physics: const BouncingScrollPhysics(),
           //   children: [
@@ -469,60 +470,68 @@ class _AllRecipesScreenState extends State<AllRecipes> {
           //   ],
           // ),
 
-
-
           child: Column(
             children: [
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: refreshList,
+                  backgroundColor: firstColor,
+                  color: Colors.white,
                   child: FutureBuilder(
                     future: apiScreen.getAllRecipes(context),
-                    builder: (BuildContext context, AsyncSnapshot<List<AllRecipesModel>> snapshot) {
-                      if(!snapshot.hasData){
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<AllRecipesModel>> snapshot) {
+                      if (!snapshot.hasData) {
                         return const Center(
                           child: CircularProgressIndicator(
                             color: firstColor,
                           ),
                         );
-                      }else {
+                      } else {
                         return ListView.builder(
+                          physics: const BouncingScrollPhysics(),
                           itemCount: snapshot.data?.length,
-                          itemBuilder: (context, index){
+                          itemBuilder: (context, index) {
+                            var category = snapshot.data![index].categories.toString();
+                            print("Category" +category);
                             return Column(
                               children: [
-                                Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: firstColor),
-                                          borderRadius: BorderRadius.circular(25.0)),
-                                      child: CircleAvatar(
-                                        radius: 20.0,
-                                        child: Image.asset("assets/images/image.png"),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: firstColor),
+                                                borderRadius:
+                                                BorderRadius.circular(25.0)),
+                                            child: CircleAvatar(
+                                              radius: 20.0,
+                                              child: Image.asset(
+                                                  "assets/images/image.png"),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8.0),
+                                          Text(
+                                            snapshot.data![index].username!.username
+                                                .toString(),
+                                            style: GoogleFonts.acme(
+                                                fontSize: 13.0,
+                                                fontWeight: FontWeight.w200),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 8.0,
-                                    ),
-                                    Text(
-                                      snapshot.data![index].username!.username.toString(),
-                                      style: GoogleFonts.acme(
-                                          fontSize: 13.0, fontWeight: FontWeight.w200),
-                                    ),
-                                    const SizedBox(
-                                      width: 180.0,
-                                    ),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          CupertinoIcons.ellipsis_vertical,
-                                          color: firstColor,
-                                        )),
-                                  ],
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            CupertinoIcons.ellipsis_vertical,
+                                            color: firstColor,
+                                          )),
+                                    ],
+                                  ),
                                 ),
                                 const SizedBox(height: 5.0),
                                 InkWell(
@@ -530,7 +539,8 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const RecipeDetailsScreen()));
+                                            builder: (context) =>
+                                                const RecipeDetailsScreen()));
                                   },
                                   child: Container(
                                     height: 270,
@@ -541,7 +551,36 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                           offset: const Offset(0.0, 0.1),
                                           blurRadius: 10.0)
                                     ]),
-                                    child: Image.network(baseUrl+snapshot.data![index].image.toString(), fit: BoxFit.cover,)
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "${baseUrl}  ${snapshot.data![index].image.toString()}",
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                              colorFilter:
+                                                  const ColorFilter.mode(
+                                                      Colors.red,
+                                                      BlendMode.dstIn)),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child: CircularProgressIndicator(
+                                        color: firstColor,
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    ),
+
+                                    // Image.network(
+                                    //   baseUrl +
+                                    //       snapshot.data![index].image
+                                    //           .toString(),
+                                    //   fit: BoxFit.cover,
+                                    // )
                                   ),
                                 ),
                                 Row(
@@ -577,6 +616,7 @@ class _AllRecipesScreenState extends State<AllRecipes> {
               )
             ],
           ),
-        ));
+        )
+    );
   }
 }

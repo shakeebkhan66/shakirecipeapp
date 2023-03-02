@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myreceipeapp/constants/custom_circletabindicator.dart';
+import 'package:myreceipeapp/models/popupmenumodel.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/addpost_screen.dart';
+import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
 import 'package:myreceipeapp/screens/editprofile_screen.dart';
+import 'package:myreceipeapp/screens/settheme_screen.dart';
 import 'package:myreceipeapp/screens/welcome_screen.dart';
 import '../../constants/colors.dart';
 import '../../models/recipesmodel_class.dart';
@@ -18,6 +22,8 @@ class MyProfileScreen extends StatefulWidget {
 
 class _MyProfileScreenState extends State<MyProfileScreen>
     with TickerProviderStateMixin {
+  TabController? _tabController;
+
   // TODO Recipes List
   List<RecipesModelClass> recipesList = [
     RecipesModelClass(text: "All", image: "assets/images/all.jpg"),
@@ -87,7 +93,54 @@ class _MyProfileScreenState extends State<MyProfileScreen>
         });
   }
 
-  TabController? _tabController;
+  // TODO Modal Bottom Sheet
+  bottomSheet() {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Wrap(
+            children: [
+              const ListTile(
+                leading: Icon(Icons.password_rounded, color: darkJungleGreenColor,),
+                title: Text(
+                  'Change Password',
+                  style: TextStyle(
+                      color: darkJungleGreenColor, letterSpacing: -1.0),
+                ),
+              ),
+              ListTile(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SetThemeScreen()));
+                },
+                leading: const Icon(Icons.color_lens_sharp, color: darkJungleGreenColor,),
+                title: const Text(
+                  'Change Theme',
+                  style: TextStyle(
+                      color: darkJungleGreenColor, letterSpacing: -1.0),
+                ),
+              ),
+              const ListTile(
+                leading: Icon(Icons.language, color: darkJungleGreenColor,),
+                title: Text(
+                  'Change Language',
+                  style: TextStyle(
+                      color: darkJungleGreenColor, letterSpacing: -1.0),
+                ),
+              ),
+              ListTile(
+                onTap: logoutFunction,
+                leading: const Icon(Icons.logout, color: firstColor,),
+                title: const Text(
+                  'Sign Out',
+                  style: TextStyle(
+                      color: darkJungleGreenColor, letterSpacing: -1.0),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
@@ -120,12 +173,19 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                 )),
             Padding(
               padding: const EdgeInsets.only(right: 5.0),
-              child: IconButton(
-                  onPressed: logoutFunction,
-                  icon: const Icon(
-                    Icons.exit_to_app_rounded,
-                    color: firstColor,
-                  )),
+              child: PopupMenuButton<PopupMenuItemModel>(
+                onSelected: (popupMenuItemModel) =>
+                    onSelected(context, popupMenuItemModel),
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: firstColor,
+                ),
+                itemBuilder: (context) => [
+                  ...MenuItems.itemsFirst.map(buildItem).toList(),
+                  const PopupMenuDivider(),
+                  ...MenuItems.itemsSecond.map(buildItem).toList(),
+                ],
+              ),
             )
           ],
         ),
@@ -217,7 +277,8 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: MaterialButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, EditProfileScreen.routeName);
+                          Navigator.pushNamed(
+                              context, EditProfileScreen.routeName);
                         },
                         splashColor: secondColor,
                         hoverColor: firstColor,
@@ -252,7 +313,9 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                       ),
                     ]),
               ),
-              const SizedBox(height: 10.0,),
+              const SizedBox(
+                height: 10.0,
+              ),
               Container(
                 width: double.maxFinite,
                 height: 400,
@@ -265,29 +328,60 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 4.0,
-                              mainAxisSpacing: 4.0
-                            ),
+                              mainAxisSpacing: 4.0),
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 150,
                           width: 120,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey)
-                          ),
+                              border: Border.all(color: Colors.grey)),
                           child: Card(
                             color: thirdColor,
                             shadowColor: Colors.black38,
-                            child: Image.asset(recipesList[index].image!, fit: BoxFit.cover,),
+                            child: Image.asset(
+                              recipesList[index].image!,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       },
                     ),
-                    Text("There"),
+                    const Text("There"),
                   ],
                 ),
               )
             ],
           ),
         ));
+  }
+
+  // TODO Popup Menu Item
+  PopupMenuItem<PopupMenuItemModel> buildItem(
+          PopupMenuItemModel popupMenuItemModel) =>
+      PopupMenuItem(
+          value: popupMenuItemModel,
+          child: Row(
+            children: [
+              Icon(
+                popupMenuItemModel.icon,
+                color: darkJungleGreenColor,
+                size: 20.0,
+              ),
+              const SizedBox(
+                width: 12.0,
+              ),
+              Text(popupMenuItemModel.text!)
+            ],
+          ));
+
+  // TODO Moving On Different Pages By Clicking the Option of Popup Menu Button
+  onSelected(BuildContext context, PopupMenuItemModel popupMenuItemModel) {
+    if (popupMenuItemModel == MenuItems.itemsSettings) {
+      return bottomSheet();
+    } else if (popupMenuItemModel == MenuItems.itemsShare) {
+      return Fluttertoast.showToast(msg: "Share");
+    } else {
+      return logoutFunction();
+    }
   }
 }

@@ -95,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           isPassword
                               ? Icons.visibility_off
                               : Icons.visibility,
+                          color: isPassword ? firstColor : Colors.blueGrey,
                         ),
                       ),
                       validator: (String? value) {

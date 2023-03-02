@@ -34,7 +34,7 @@ class ApiScreen {
 
     try {
       final response = await http
-          .post(Uri.parse('http://192.168.42.145:8000/api/register/'),
+          .post(Uri.parse('http://192.168.42.43:8000/api/register/'),
       //     body: {
       //   "username": username,
       //   "email": email,
@@ -90,7 +90,7 @@ class ApiScreen {
 
     try {
       final response = await http
-          .post(Uri.parse('http://192.168.42.145:8000/api/login/'),
+          .post(Uri.parse('http://192.168.42.43:8000/api/login/'),
           headers: <String, String>{
             'Content-Type': 'application/json'
           },
@@ -132,12 +132,12 @@ class ApiScreen {
   // TODO Get All Recipes APi
   Future<List<AllRecipesModel>> getAllRecipes(context) async {
     final response = await http
-        .get(Uri.parse('http://192.168.42.145:8000/api/allrecipes/'),
+        .get(Uri.parse('http://192.168.42.43:8000/api/allrecipes/'),
     );
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
       print("Data $data");
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data get successfully")));
+      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data get successfully")));
       for (Map i in data) {
         allRecipes.add(AllRecipesModel.fromJson(i));
       }

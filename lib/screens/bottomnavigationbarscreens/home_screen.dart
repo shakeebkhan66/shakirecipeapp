@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<RecipesModelClass> recipesList = [
     RecipesModelClass(text: "All", image: "assets/images/all.jpg"),
     RecipesModelClass(text: "Tea", image: "assets/images/tea.jpg"),
-    RecipesModelClass(text: "Biryani", image: "assets/images/biryani.jpg"),
+    RecipesModelClass(text: "Rice", image: "assets/images/biryani.jpg"),
     RecipesModelClass(text: "karhai", image: "assets/images/karhai.jpg"),
     RecipesModelClass(text: "Cake", image: "assets/images/cake.jpg"),
     RecipesModelClass(text: "Roti", image: "assets/images/roti.jpg"),
@@ -40,9 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
     if (recipeName == "All") {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const AllRecipes()));
-    } else if (recipeName == "Biryani") {
+    } else if (recipeName == "Rice") {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const BiryaniRecipes()));
+          MaterialPageRoute(builder: (context) => const RiceRecipes()));
     } else if (recipeName == "Cake") {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const CakeRecipes()));
