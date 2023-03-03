@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/constants/custom_button.dart';
-import 'package:myreceipeapp/constants/customtextfield.dart';
 
-import '../../constants/colors.dart';
+import '../constants/colors.dart';
+import '../constants/customtextfield.dart';
 
 class AddPostScreen extends StatefulWidget {
   static const routeName = '/addPostScreen';

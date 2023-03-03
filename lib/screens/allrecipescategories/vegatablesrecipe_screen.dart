@@ -2,8 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/allrecipescategories/recipesdisplay/recipedetail_screen.dart';
-
+import 'package:myreceipeapp/screens/allrecipescategories/recipesdisplay/recipedetail_screen.dart';
 import '../api/register_api.dart';
 import '../constants/colors.dart';
 import '../models/AllRecipesModel.dart';
@@ -20,7 +19,7 @@ class _VegatablesRecipesState extends State<VegatablesRecipes> {
   // TODO INSTANCE OF API SCREEN
   ApiScreen apiScreen = ApiScreen();
 
-  String baseUrl = "http://192.168.42.43:8000";
+  String baseUrl = "http://192.168.42.184:8000";
   bool isLoaded = false;
 
   // TODO Refresh List Function

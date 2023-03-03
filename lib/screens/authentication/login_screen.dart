@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/constants/spinkit_loading_screen.dart';
-import 'package:myreceipeapp/screens/bottomnavigationbar.dart';
-import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
-import 'package:myreceipeapp/authentication/signup_screen.dart';
-
+import 'package:myreceipeapp/screens/authentication/signup_screen.dart';
 import '../api/register_api.dart';
 import '../constants/colors.dart';
 import '../constants/customtextfield.dart';
+import '../constants/spinkit_loading_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/loginScreen';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../constants/colors.dart';
+import '../constants/colors.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

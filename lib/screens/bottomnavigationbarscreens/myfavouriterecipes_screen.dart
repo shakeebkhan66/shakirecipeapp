@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/colors.dart';
+import '../constants/colors.dart';
+
 
 class FavouriteRecipesScreen extends StatefulWidget {
   static const routeName = '/favouriteRecipeScreen';

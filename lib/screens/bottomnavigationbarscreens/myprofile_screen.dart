@@ -2,15 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/constants/custom_circletabindicator.dart';
-import 'package:myreceipeapp/models/popupmenumodel.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/addpost_screen.dart';
-import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
 import 'package:myreceipeapp/screens/editprofile_screen.dart';
 import 'package:myreceipeapp/screens/settheme_screen.dart';
-import 'package:myreceipeapp/screens/welcome_screen.dart';
-import '../../constants/colors.dart';
-import '../../models/recipesmodel_class.dart';
+
+import '../authentication/change_password_screen.dart';
+import '../authentication/login_screen.dart';
+import '../constants/colors.dart';
+import '../constants/custom_circletabindicator.dart';
+import '../models/popupmenumodel.dart';
+import '../models/recipesmodel_class.dart';
+import '../sharedpreference/sharedpref_class.dart';
 
 class MyProfileScreen extends StatefulWidget {
   static const routeName = '/myProfileScreen';
@@ -63,11 +65,11 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                   MaterialButton(
                     color: Colors.redAccent,
                     onPressed: () {
-                      // Constants.preferences?.setBool("loggedIn", false);
+                      MySharedPrefClass.preferences?.setBool("loggedIn", false);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (ctx) => const WelcomeScreen()));
+                              builder: (ctx) => const LoginScreen()));
                     },
                     child: const Text(
                       "Yes",
@@ -100,9 +102,12 @@ class _MyProfileScreenState extends State<MyProfileScreen>
         builder: (context) {
           return Wrap(
             children: [
-              const ListTile(
-                leading: Icon(Icons.password_rounded, color: darkJungleGreenColor,),
-                title: Text(
+              ListTile(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
+                },
+                leading: const Icon(Icons.password_rounded, color: darkJungleGreenColor,),
+                title: const Text(
                   'Change Password',
                   style: TextStyle(
                       color: darkJungleGreenColor, letterSpacing: -1.0),

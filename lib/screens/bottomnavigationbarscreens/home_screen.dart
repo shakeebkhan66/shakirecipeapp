@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/allrecipescategories/cakerecipe_screen.dart';
-import 'package:myreceipeapp/allrecipescategories/karhairecipe_screen.dart';
-import 'package:myreceipeapp/allrecipescategories/rotirecipe_screen.dart';
-import 'package:myreceipeapp/allrecipescategories/saladrecipe_screen.dart';
-import 'package:myreceipeapp/allrecipescategories/tearecipe_screen.dart';
-import 'package:myreceipeapp/allrecipescategories/vegatablesrecipe_screen.dart';
-import 'package:myreceipeapp/constants/colors.dart';
 
-import '../../allrecipescategories/allrecipes_screen.dart';
-import '../../allrecipescategories/biryanirecipe_screen.dart';
-import '../../models/recipesmodel_class.dart';
+import '../allrecipescategories/allrecipes_screen.dart';
+import '../allrecipescategories/biryanirecipe_screen.dart';
+import '../allrecipescategories/cakerecipe_screen.dart';
+import '../allrecipescategories/karhairecipe_screen.dart';
+import '../allrecipescategories/rotirecipe_screen.dart';
+import '../allrecipescategories/saladrecipe_screen.dart';
+import '../allrecipescategories/tearecipe_screen.dart';
+import '../allrecipescategories/vegatablesrecipe_screen.dart';
+import '../constants/colors.dart';
+import '../models/recipesmodel_class.dart';
+
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/homeScreen';
@@ -67,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: secondColor,
+      // backgroundColor: secondColor,
       body: ListView(
         children: [
           Container(

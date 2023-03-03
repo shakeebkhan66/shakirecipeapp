@@ -1,9 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/constants/colors.dart';
-import 'package:myreceipeapp/constants/custom_button.dart';
-import 'package:myreceipeapp/authentication/signup_screen.dart';
+
+import 'authentication/signup_screen.dart';
+import 'constants/colors.dart';
+import 'constants/custom_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -89,38 +90,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       "assets/images/wel.png",
                       fit: BoxFit.cover,
                     )),
-
-                // InkWell(
-                //   hoverColor: Colors.white,
-                //   highlightColor: thirdColor,
-                //   onTap: () {
-                //     Navigator.pushNamed(context, SignUpScreen.routeName);
-                //   },
-                //   child: Padding(
-                //     padding: const EdgeInsets.only(top: 80.0),
-                //     child: Container(
-                //       height: 50,
-                //       width: 280,
-                //       alignment: Alignment.center,
-                //       decoration: BoxDecoration(
-                //           color: firstColor,
-                //           borderRadius: BorderRadius.circular(12.0),
-                //           boxShadow: const [
-                //             BoxShadow(
-                //               color: Colors.white38,
-                //               offset: Offset(0, 0.1),
-                //               blurRadius: 10.0,
-                //             )
-                //           ]),
-                //       child: Text(
-                //         "Get started",
-                //         style: GoogleFonts.oswald(
-                //             color: secondColor, fontSize: 20.0),
-                //       ),
-                //     ),
-                //   ),
-                // )
-
                 CustomButton(text: "Get started", color: secondColor, onPressed: (){
                   Navigator.pushNamed(context, SignUpScreen.routeName);
                 })

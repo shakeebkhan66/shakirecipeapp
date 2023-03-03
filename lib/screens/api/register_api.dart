@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:myreceipeapp/authentication/login_screen.dart';
-import 'package:myreceipeapp/models/AllRecipesModel.dart';
-import '../screens/bottomnavigationbar.dart';
+import '../authentication/login_screen.dart';
+import '../bottomnavigationbar.dart';
+import '../models/AllRecipesModel.dart';
+import '../sharedpreference/sharedpref_class.dart';
 
 // TODO INSTANCE OF ALL RECIPE MODEL CLASS
 AllRecipesModel allRecipesModel = AllRecipesModel();
@@ -34,7 +35,7 @@ class ApiScreen {
 
     try {
       final response = await http
-          .post(Uri.parse('http://192.168.42.43:8000/api/register/'),
+          .post(Uri.parse('http://192.168.42.184:8000/api/register/'),
       //     body: {
       //   "username": username,
       //   "email": email,
@@ -90,7 +91,7 @@ class ApiScreen {
 
     try {
       final response = await http
-          .post(Uri.parse('http://192.168.42.43:8000/api/login/'),
+          .post(Uri.parse('http://192.168.42.184:8000/api/login/'),
           headers: <String, String>{
             'Content-Type': 'application/json'
           },
@@ -101,6 +102,9 @@ class ApiScreen {
         var data = jsonDecode(response.body.toString());
         print("Data $data");
         print("Login Successfully");
+        print("Hello ${data["token"]["access"]}");
+        MySharedPrefClass.preferences!.setBool("loggedIn", true);
+        MySharedPrefClass.preferences?.setString("Access_Token", data["token"]["access"]);
         Fluttertoast.showToast(
             msg: "Login Successfully",
             backgroundColor: Colors.green,
@@ -129,10 +133,63 @@ class ApiScreen {
     }
   }
 
-  // TODO Get All Recipes APi
+  // TODO Change Password Api
+  changePassword(String password, confirmPassword, token,  context) async {
+    print("My Password $password");
+    print("My ConfirmPassword $confirmPassword");
+
+    Map<String, dynamic> body = {
+      "password": password,
+      "confirmPassword": confirmPassword,
+    };
+
+    try {
+      final response = await http
+          .post(Uri.parse('http://192.168.42.184:8000/api/change_password/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body.toString());
+        print("Data $data");
+        print("Change Password Successfully");
+        Fluttertoast.showToast(
+            msg: "Change Password Successfully",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 18);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const BottomNavigationBarScreen()));
+        // Navigator.pushNamed(context, BottomNavigationBarScreen.routeName);
+      } else {
+        print("Failed");
+        Fluttertoast.showToast(
+            msg: "Failed ${response.body}",
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            fontSize: 18);
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white,
+          fontSize: 18);
+    }
+  }
+
+  // TODO Get All Recipes Api
   Future<List<AllRecipesModel>> getAllRecipes(context) async {
     final response = await http
-        .get(Uri.parse('http://192.168.42.43:8000/api/allrecipes/'),
+        .get(Uri.parse('http://192.168.42.184:8000/api/allrecipes/'),
     );
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
@@ -147,4 +204,7 @@ class ApiScreen {
       return allRecipes;
     }
   }
+
+
+
 }

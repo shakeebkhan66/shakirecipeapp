@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/api/register_api.dart';
-import 'package:myreceipeapp/constants/colors.dart';
-import 'package:myreceipeapp/authentication/login_screen.dart';
-
+import '../api/register_api.dart';
+import '../constants/colors.dart';
 import '../constants/customtextfield.dart';
+import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signUpScreen';

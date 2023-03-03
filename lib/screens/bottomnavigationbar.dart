@@ -1,11 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:myreceipeapp/constants/colors.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/addpost_screen.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myfavouriterecipes_screen.dart';
-import 'package:myreceipeapp/screens/bottomnavigationbarscreens/search_screen.dart';
 import 'bottomnavigationbarscreens/myprofile_screen.dart';
+import 'constants/colors.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   static const routeName = '/bottomNavigationBarScreen';

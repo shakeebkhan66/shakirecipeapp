@@ -1,8 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/constants/colors.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbar.dart';
+
+import '../../constants/colors.dart';
 
 class RecipeDetailsScreen extends StatefulWidget {
   const RecipeDetailsScreen({Key? key}) : super(key: key);

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/constants/colors.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myprofile_screen.dart';
 
-import '../constants/customtextfield.dart';
+import 'constants/colors.dart';
+import 'constants/customtextfield.dart';
+
 
 class EditProfileScreen extends StatefulWidget {
   static const routeName = '/editProfileScreen';
