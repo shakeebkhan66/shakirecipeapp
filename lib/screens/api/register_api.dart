@@ -5,16 +5,20 @@ import 'package:http/http.dart' as http;
 import '../authentication/login_screen.dart';
 import '../bottomnavigationbar.dart';
 import '../models/AllRecipesModel.dart';
+import '../models/ProfileDataModel.dart';
 import '../sharedpreference/sharedpref_class.dart';
 
 // TODO INSTANCE OF ALL RECIPE MODEL CLASS
 AllRecipesModel allRecipesModel = AllRecipesModel();
 
 class ApiScreen {
+  String baseUrl = "http://192.168.42.91:8000";
 
   // TODO INSTANCE OF ALL RECIPE MODEL CLASS
   List<AllRecipesModel> allRecipes = [];
 
+  // TODO INSTANCE OF PROFILE DATA MODEL CLASS
+  List<ProfileDataModel> profileDataList = [];
 
 // TODO Register APi
   register(String username, email, fullName, password, confirmPassword,
@@ -34,21 +38,18 @@ class ApiScreen {
     };
 
     try {
-      final response = await http
-          .post(Uri.parse('http://192.168.42.184:8000/api/register/'),
-      //     body: {
-      //   "username": username,
-      //   "email": email,
-      //   "fullname": fullName,
-      //   "password": password,
-      //   "confirmPassword": confirmPassword,
-      // }
+      final response = await http.post(
+        Uri.parse('http://192.168.42.91:8000/api/register/'),
+        //     body: {
+        //   "username": username,
+        //   "email": email,
+        //   "fullname": fullName,
+        //   "password": password,
+        //   "confirmPassword": confirmPassword,
+        // }
 
-        headers: <String, String>{
-          'Content-Type': 'application/json'
-        },
+        headers: <String, String>{'Content-Type': 'application/json'},
         body: jsonEncode(registerBody),
-
       );
 
       if (response.statusCode == 200) {
@@ -90,12 +91,10 @@ class ApiScreen {
     };
 
     try {
-      final response = await http
-          .post(Uri.parse('http://192.168.42.184:8000/api/login/'),
-          headers: <String, String>{
-            'Content-Type': 'application/json'
-          },
-          body: jsonEncode(body),
+      final response = await http.post(
+        Uri.parse('http://192.168.42.91:8000/api/login/'),
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(body),
       );
 
       if (response.statusCode == 200) {
@@ -104,7 +103,8 @@ class ApiScreen {
         print("Login Successfully");
         print("Hello ${data["token"]["access"]}");
         MySharedPrefClass.preferences!.setBool("loggedIn", true);
-        MySharedPrefClass.preferences?.setString("Access_Token", data["token"]["access"]);
+        MySharedPrefClass.preferences
+            ?.setString("Access_Token", data["token"]["access"]);
         Fluttertoast.showToast(
             msg: "Login Successfully",
             backgroundColor: Colors.green,
@@ -134,7 +134,7 @@ class ApiScreen {
   }
 
   // TODO Change Password Api
-  changePassword(String password, confirmPassword, token,  context) async {
+  changePassword(String password, confirmPassword, token, context) async {
     print("My Password $password");
     print("My ConfirmPassword $confirmPassword");
 
@@ -144,8 +144,8 @@ class ApiScreen {
     };
 
     try {
-      final response = await http
-          .post(Uri.parse('http://192.168.42.184:8000/api/change_password/'),
+      final response = await http.post(
+        Uri.parse('http://192.168.42.91:8000/api/change_password/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -188,8 +188,8 @@ class ApiScreen {
 
   // TODO Get All Recipes Api
   Future<List<AllRecipesModel>> getAllRecipes(context) async {
-    final response = await http
-        .get(Uri.parse('http://192.168.42.184:8000/api/allrecipes/'),
+    final response = await http.get(
+      Uri.parse('http://192.168.42.91:8000/api/allrecipes/'),
     );
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
@@ -200,11 +200,36 @@ class ApiScreen {
       }
       return allRecipes;
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Failed to get")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Failed to get")));
       return allRecipes;
     }
   }
 
-
-
+  // TODO Profile Data of User
+  Future<List<ProfileDataModel>> getProfileData(context) async {
+    var accessToken = MySharedPrefClass.preferences?.getString('Access_Token');
+    final response = await http.get(
+      Uri.parse('http://192.168.42.91:8000/api/profile/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $accessToken'
+      },
+    );
+    var data = jsonDecode(response.body.toString());
+    if (response.statusCode == 200) {
+      print("Profile $data");
+      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data get successfully")));
+      for (var i in data) {
+        profileDataList.add(ProfileDataModel.fromJson(i));
+        print("Kaka ${profileDataList}");
+      }
+      return profileDataList;
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Failed to get")));
+      return profileDataList;
+    }
+  }
 }

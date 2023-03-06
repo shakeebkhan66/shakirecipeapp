@@ -19,7 +19,6 @@ class _RiceRecipesState extends State<RiceRecipes> {
   // TODO INSTANCE OF API SCREEN
   ApiScreen apiScreen = ApiScreen();
 
-  String baseUrl = "http://192.168.42.184:8000";
   bool isLoaded = false;
 
   // TODO Refresh List Function
@@ -142,7 +141,7 @@ class _RiceRecipesState extends State<RiceRecipes> {
                                     ]),
                                     child: CachedNetworkImage(
                                       imageUrl:
-                                      "${baseUrl}  ${snapshot.data![index].image.toString()}",
+                                      "${apiScreen.baseUrl}  ${snapshot.data![index].image.toString()}",
                                       imageBuilder: (context, imageProvider) =>
                                           Container(
                                             decoration: BoxDecoration(

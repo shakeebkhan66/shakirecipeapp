@@ -10,6 +10,7 @@ import 'package:myreceipeapp/screens/constants/colors.dart';
 import 'package:myreceipeapp/screens/editprofile_screen.dart';
 import 'package:myreceipeapp/screens/models/model_theme.dart';
 import 'package:myreceipeapp/screens/sharedpreference/sharedpref_class.dart';
+import 'package:myreceipeapp/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,8 +56,8 @@ class MyApp extends StatelessWidget {
               // AllRecipesScreen.routeName: (context) => const AllRecipesScreen(),
             },
             home: MySharedPrefClass.preferences?.getBool("loggedIn") == true
-                ? const HomeScreen()
-                : const BottomNavigationBarScreen(),
+                ? const BottomNavigationBarScreen()
+                : const WelcomeScreen()
           );
         }));
   }
