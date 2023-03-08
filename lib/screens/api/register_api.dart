@@ -12,7 +12,7 @@ import '../sharedpreference/sharedpref_class.dart';
 AllRecipesModel allRecipesModel = AllRecipesModel();
 
 class ApiScreen {
-  String baseUrl = "http://192.168.42.91:8000";
+  String baseUrl = "http://192.168.42.99:8000";
 
   // TODO INSTANCE OF ALL RECIPE MODEL CLASS
   List<AllRecipesModel> allRecipes = [];
@@ -39,7 +39,7 @@ class ApiScreen {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.42.91:8000/api/register/'),
+        Uri.parse('http://192.168.42.99:8000/api/register/'),
         //     body: {
         //   "username": username,
         //   "email": email,
@@ -92,7 +92,7 @@ class ApiScreen {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.42.91:8000/api/login/'),
+        Uri.parse('http://192.168.42.99:8000/api/login/'),
         headers: <String, String>{'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
@@ -145,7 +145,7 @@ class ApiScreen {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.42.91:8000/api/change_password/'),
+        Uri.parse('http://192.168.42.99:8000/api/change_password/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -189,13 +189,13 @@ class ApiScreen {
   // TODO Get All Recipes Api
   Future<List<AllRecipesModel>> getAllRecipes(context) async {
     final response = await http.get(
-      Uri.parse('http://192.168.42.91:8000/api/allrecipes/'),
+      Uri.parse('http://192.168.42.99:8000/api/allrecipes/'),
     );
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
       print("Data $data");
       // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data get successfully")));
-      for (Map i in data) {
+      for (var i in data) {
         allRecipes.add(AllRecipesModel.fromJson(i));
       }
       return allRecipes;
@@ -210,7 +210,7 @@ class ApiScreen {
   Future<List<ProfileDataModel>> getProfileData(context) async {
     var accessToken = MySharedPrefClass.preferences?.getString('Access_Token');
     final response = await http.get(
-      Uri.parse('http://192.168.42.91:8000/api/profile/'),
+      Uri.parse('http://192.168.42.99:8000/api/profile/'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Accept': 'application/json',

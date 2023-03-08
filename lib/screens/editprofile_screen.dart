@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myprofile_screen.dart';
-
 import 'constants/colors.dart';
 import 'constants/customtextfield.dart';
 
@@ -23,7 +21,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: secondColor,
         elevation: 0.5,
         leading: IconButton(onPressed: (){
-          Navigator.pushNamed(context, MyProfileScreen.routeName);
+          Navigator.pop(context);
         }, icon: const Icon(Icons.arrow_back_ios_new_rounded, color: firstColor,)),
       ),
       body: SafeArea(

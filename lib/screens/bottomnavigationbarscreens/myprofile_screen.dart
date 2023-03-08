@@ -163,8 +163,8 @@ class _MyProfileScreenState extends State<MyProfileScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    apiScreen.getProfileData(context);
     refreshList();
+
   }
 
   @override
@@ -396,6 +396,8 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                           itemCount: snapshot.data?.length,
                           itemBuilder: (context, index) {
                             var name = snapshot.data![index].user!.fullname.toString();
+                            var image = snapshot.data![index].user!.image.toString();
+                            print("Image $image");
                             var recipes = snapshot.data![index].recipes;
                             var length = snapshot.data?.length;
                             return Column(
@@ -407,14 +409,15 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          const Padding(
-                                            padding: EdgeInsets.only(
+                                           Padding(
+                                            padding: const EdgeInsets.only(
                                               top: 20,
                                             ),
                                             child: CircleAvatar(
                                               radius: 40,
+                                              backgroundColor: Colors.transparent,
                                               backgroundImage:
-                                              AssetImage("assets/images/image.png"),
+                                              NetworkImage("${apiScreen.baseUrl}  ${image}"),
                                             ),
                                           ),
                                           Column(
@@ -503,67 +506,94 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 150,
-                                  child: GridView.builder(
-                                    itemCount: recipes?.length,
-                                    gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        crossAxisSpacing: 4.0,
-                                        mainAxisSpacing: 4.0),
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return Container(
-                                        height: 150,
-                                        width: 120,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.grey)),
-                                        child: Card(
-                                          color: thirdColor,
-                                          shadowColor: Colors.black38,
-                                          child: Container(
-                                            height: 270,
-                                            width: MediaQuery.of(context).size.width,
-                                            decoration: BoxDecoration(boxShadow: [
-                                              BoxShadow(
-                                                  color: firstColor.withOpacity(0.2),
-                                                  offset: const Offset(0.0, 0.1),
-                                                  blurRadius: 10.0)
-                                            ]),
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                              "${apiScreen.baseUrl}  ${recipes![index].image.toString()}",
-                                              imageBuilder: (context, imageProvider) =>
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: imageProvider,
-                                                          fit: BoxFit.cover,
-                                                          colorFilter:
-                                                          const ColorFilter.mode(
-                                                              Colors.red,
-                                                              BlendMode.dstIn)),
-                                                    ),
-                                                  ),
-                                              placeholder: (context, url) =>
-                                              const Center(
-                                                  child: CircularProgressIndicator(
-                                                    color: firstColor,
-                                                  )),
-                                              errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                            ),
-
-                                            // Image.network(
-                                            //   baseUrl +
-                                            //       snapshot.data![index].image
-                                            //           .toString(),
-                                            //   fit: BoxFit.cover,
-                                            // )
-                                          ),
+                                const SizedBox(height: 20.0),
+                                Container(
+                                  child: TabBar(
+                                      controller: _tabController,
+                                      unselectedLabelColor: Colors.black54,
+                                      labelColor: darkJungleGreenColor,
+                                      labelStyle: GoogleFonts.acme(
+                                          fontSize: 14, fontWeight: FontWeight.w400),
+                                      indicator: CircleTabIndicator(color: firstColor, radius: 4),
+                                      tabs: const [
+                                        Tab(
+                                          text: "My Recipes",
                                         ),
-                                      );
-                                    },
+                                        Tab(
+                                          text: "Recipes Video",
+                                        ),
+                                      ]),
+                                ),
+                                const SizedBox(height: 10.0,),
+                                Container(
+                                  width: double.maxFinite,
+                                  height: 400,
+                                  child: TabBarView(
+                                    controller: _tabController,
+                                    children: [
+                                      GridView.builder(
+                                        itemCount: recipes?.length,
+                                        gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            crossAxisSpacing: 4.0,
+                                            mainAxisSpacing: 4.0),
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return Container(
+                                            height: 150,
+                                            width: 120,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.grey)),
+                                            child: Card(
+                                              color: thirdColor,
+                                              shadowColor: Colors.black38,
+                                              child: Container(
+                                                height: 270,
+                                                width: MediaQuery.of(context).size.width,
+                                                decoration: BoxDecoration(boxShadow: [
+                                                  BoxShadow(
+                                                      color: firstColor.withOpacity(0.2),
+                                                      offset: const Offset(0.0, 0.1),
+                                                      blurRadius: 10.0)
+                                                ]),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                  "${apiScreen.baseUrl}  ${recipes![index].image.toString()}",
+                                                  imageBuilder: (context, imageProvider) =>
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                          image: DecorationImage(
+                                                              image: imageProvider,
+                                                              fit: BoxFit.cover,
+                                                              colorFilter:
+                                                              const ColorFilter.mode(
+                                                                  Colors.red,
+                                                                  BlendMode.dstIn)),
+                                                        ),
+                                                      ),
+                                                  placeholder: (context, url) =>
+                                                  const Center(
+                                                      child: CircularProgressIndicator(
+                                                        color: firstColor,
+                                                      )),
+                                                  errorWidget: (context, url, error) =>
+                                                  const Icon(Icons.error),
+                                                ),
+
+                                                // Image.network(
+                                                //   baseUrl +
+                                                //       snapshot.data![index].image
+                                                //           .toString(),
+                                                //   fit: BoxFit.cover,
+                                                // )
+
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      const Center(child: Text("Recipes Videos")),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -614,6 +644,4 @@ class _MyProfileScreenState extends State<MyProfileScreen>
 shareLink(){
     Share.share('check out my website https://example.com', subject: 'Look what I made!');
 }
-
-
 }
