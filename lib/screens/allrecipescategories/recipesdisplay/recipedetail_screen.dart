@@ -1,18 +1,35 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myreceipeapp/screens/api/register_api.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbar.dart';
 
 import '../../constants/colors.dart';
 
 class RecipeDetailsScreen extends StatefulWidget {
-  const RecipeDetailsScreen({Key? key}) : super(key: key);
+  String image;
+  String recipeName;
+  String category;
+  String ingredients;
+  String howToMake;
+  RecipeDetailsScreen(
+      {Key? key,
+      required this.image,
+      required this.recipeName,
+      required this.category,
+      required this.ingredients,
+      required this.howToMake})
+      : super(key: key);
 
   @override
   State<RecipeDetailsScreen> createState() => _RecipeDetailsScreenState();
 }
 
 class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
+
+  ApiScreen apiScreen = ApiScreen();
+
+
   // TODO My Modal Bottom Sheet
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -30,7 +47,12 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
             minChildSize: 0.4,
             builder: (context, scrollController) => SingleChildScrollView(
                   controller: scrollController,
-                  child: const MyModalBottomSheet(),
+                  child: MyModalBottomSheet(
+                    recipeName: widget.recipeName,
+                    category: widget.category,
+                    ingredients: widget.ingredients,
+                    howToMake: widget.howToMake,
+                  ),
                 )));
   }
 
@@ -56,14 +78,16 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: secondColor,
-      // appBar: AppBar(
-      //   backgroundColor: secondColor,
-      //   elevation: 0.0,
-      //   leading: IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back_ios_new, color: firstColor,)),
-      //   actions: [
-      //     IconButton(onPressed: (){}, icon: const Icon(Icons.turned_in_not, color: firstColor, size: 25.0,))
-      //   ],
-      // ),
+      appBar: AppBar(
+        backgroundColor: secondColor,
+        elevation: 0.0,
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: const Icon(Icons.arrow_back_ios_new, color: firstColor,)),
+        actions: [
+          IconButton(onPressed: (){}, icon: const Icon(Icons.turned_in_not, color: firstColor, size: 25.0,))
+        ],
+      ),
       body: SafeArea(
         child: RefreshIndicator(
           triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -75,41 +99,41 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 1.3,
-                    child: Image.asset(
-                      "assets/images/drink.jpg",
+                    child: Image.network(
+                      "${apiScreen.baseUrl} ${widget.image}",
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Container(
-                      padding: const EdgeInsets.only(top: 25.0, left: 13.0),
-                      child: CircleAvatar(
-                          radius: 22.0,
-                          backgroundColor: secondColor,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, BottomNavigationBarScreen.routeName);
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new,
-                              size: 25.0,
-                              color: darkJungleGreenColor,
-                            ),
-                          ))),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                        alignment: Alignment.topRight,
-                        padding: const EdgeInsets.only(top: 25.0, right: 15.0),
-                        child: const CircleAvatar(
-                            radius: 22.0,
-                            backgroundColor: secondColor,
-                            child: Icon(
-                              Icons.turned_in_not,
-                              color: darkJungleGreenColor,
-                              size: 25.0,
-                            ))),
-                  ),
+                  // InkWell(
+                  //   onTap: (){
+                  //     Navigator.pop(context);
+                  //   },
+                  //   child: Container(
+                  //       padding: const EdgeInsets.only(top: 25.0, left: 13.0),
+                  //       child: const CircleAvatar(
+                  //           radius: 18.0,
+                  //           backgroundColor: darkJungleGreenColor,
+                  //           child: Icon(
+                  //             Icons.arrow_back_ios_new,
+                  //             size: 18.0,
+                  //             color: firstColor,
+                  //           ),
+                  //       )),
+                  // ),
+                  // InkWell(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //       alignment: Alignment.topRight,
+                  //       padding: const EdgeInsets.only(top: 25.0, right: 15.0),
+                  //       child: const CircleAvatar(
+                  //           radius: 18.0,
+                  //           backgroundColor: darkJungleGreenColor,
+                  //           child: Icon(
+                  //             Icons.turned_in_not,
+                  //             color: firstColor,
+                  //             size: 18.0,
+                  //           ))),
+                  // ),
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.only(top: 120.0, left: 25.0),
@@ -117,15 +141,15 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
                       repeatForever: true,
                       pause: const Duration(milliseconds: 500),
                       animatedTexts: [
-                        TyperAnimatedText('Pull page down to see bottom sheet of recipe again',
+                        TyperAnimatedText(
+                            'Pull page down to see bottom sheet of recipe again',
                             textStyle: GoogleFonts.atma(
-                                color: darkJungleGreenColor,
+                                color: Colors.white,
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1.0),
                             speed: const Duration(milliseconds: 350),
-                            curve: Curves.easeIn  
-                        )
+                            curve: Curves.easeIn)
                       ],
                     ),
                   ),
@@ -140,7 +164,18 @@ class _RecipeDetailsScreenState extends State<RecipeDetailsScreen> {
 }
 
 class MyModalBottomSheet extends StatelessWidget {
-  const MyModalBottomSheet({Key? key}) : super(key: key);
+  String recipeName;
+  String category;
+  String ingredients;
+  String howToMake;
+
+  MyModalBottomSheet(
+      {Key? key,
+      required this.recipeName,
+      required this.category,
+      required this.ingredients,
+      required this.howToMake})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -163,14 +198,14 @@ class MyModalBottomSheet extends StatelessWidget {
               height: 20.0,
             ),
             Text(
-              "Fresh Drink",
+              recipeName,
               style: GoogleFonts.atma(
                   color: firstColor,
                   fontWeight: FontWeight.w700,
                   fontSize: 28.0),
             ),
             Text(
-              "Pomegranate",
+              category,
               style: GoogleFonts.roboto(
                   color: darkJungleGreenColor,
                   fontWeight: FontWeight.w500,
@@ -232,90 +267,90 @@ class MyModalBottomSheet extends StatelessWidget {
                         width: 4.0,
                       )),
                       TextSpan(
-                          text: "Two glass of water",
+                          text: ingredients,
                           style: GoogleFonts.roboto(
                               color: darkJungleGreenColor, fontSize: 12.0))
                     ]))),
-                Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(top: 10.0, left: 15.0),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "*",
-                          style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w900,
-                              color: firstColor,
-                              fontSize: 12.0)),
-                      const WidgetSpan(
-                          child: SizedBox(
-                        width: 4.0,
-                      )),
-                      TextSpan(
-                          text: "One Fresh Pomegranate",
-                          style: GoogleFonts.roboto(
-                              color: darkJungleGreenColor, fontSize: 12.0))
-                    ]))),
-                Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(top: 10.0, left: 15.0),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "*",
-                          style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w900,
-                              color: firstColor,
-                              fontSize: 12.0)),
-                      const WidgetSpan(
-                          child: SizedBox(
-                        width: 4.0,
-                      )),
-                      TextSpan(
-                          text: "Two and half cup of milk",
-                          style: GoogleFonts.roboto(
-                              color: darkJungleGreenColor, fontSize: 12.0))
-                    ]))),
-                Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(top: 10.0, left: 15.0),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "*",
-                          style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w900,
-                              color: firstColor,
-                              fontSize: 12.0)),
-                      const WidgetSpan(
-                          child: SizedBox(
-                        width: 4.0,
-                      )),
-                      TextSpan(
-                          text: "One and half cup of sugar",
-                          style: GoogleFonts.roboto(
-                              color: darkJungleGreenColor, fontSize: 12.0))
-                    ]))),
-                Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(top: 10.0, left: 15.0),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "*",
-                          style: GoogleFonts.roboto(
-                              fontWeight: FontWeight.w900,
-                              color: firstColor,
-                              fontSize: 12.0)),
-                      const WidgetSpan(
-                          child: SizedBox(
-                        width: 4.0,
-                      )),
-                      TextSpan(
-                          text: "Two lemons",
-                          style: GoogleFonts.roboto(
-                              color: darkJungleGreenColor, fontSize: 12.0))
-                    ])))
+                // Container(
+                //     alignment: Alignment.topLeft,
+                //     padding: const EdgeInsets.only(top: 10.0, left: 15.0),
+                //     child: RichText(
+                //         text: TextSpan(children: [
+                //       TextSpan(
+                //           text: "*",
+                //           style: GoogleFonts.roboto(
+                //               fontWeight: FontWeight.w900,
+                //               color: firstColor,
+                //               fontSize: 12.0)),
+                //       const WidgetSpan(
+                //           child: SizedBox(
+                //         width: 4.0,
+                //       )),
+                //       TextSpan(
+                //           text: "One Fresh Pomegranate",
+                //           style: GoogleFonts.roboto(
+                //               color: darkJungleGreenColor, fontSize: 12.0))
+                //     ]))),
+                // Container(
+                //     alignment: Alignment.topLeft,
+                //     padding: const EdgeInsets.only(top: 10.0, left: 15.0),
+                //     child: RichText(
+                //         text: TextSpan(children: [
+                //       TextSpan(
+                //           text: "*",
+                //           style: GoogleFonts.roboto(
+                //               fontWeight: FontWeight.w900,
+                //               color: firstColor,
+                //               fontSize: 12.0)),
+                //       const WidgetSpan(
+                //           child: SizedBox(
+                //         width: 4.0,
+                //       )),
+                //       TextSpan(
+                //           text: "Two and half cup of milk",
+                //           style: GoogleFonts.roboto(
+                //               color: darkJungleGreenColor, fontSize: 12.0))
+                //     ]))),
+                // Container(
+                //     alignment: Alignment.topLeft,
+                //     padding: const EdgeInsets.only(top: 10.0, left: 15.0),
+                //     child: RichText(
+                //         text: TextSpan(children: [
+                //       TextSpan(
+                //           text: "*",
+                //           style: GoogleFonts.roboto(
+                //               fontWeight: FontWeight.w900,
+                //               color: firstColor,
+                //               fontSize: 12.0)),
+                //       const WidgetSpan(
+                //           child: SizedBox(
+                //         width: 4.0,
+                //       )),
+                //       TextSpan(
+                //           text: "One and half cup of sugar",
+                //           style: GoogleFonts.roboto(
+                //               color: darkJungleGreenColor, fontSize: 12.0))
+                //     ]))),
+                // Container(
+                //     alignment: Alignment.topLeft,
+                //     padding: const EdgeInsets.only(top: 10.0, left: 15.0),
+                //     child: RichText(
+                //         text: TextSpan(children: [
+                //       TextSpan(
+                //           text: "*",
+                //           style: GoogleFonts.roboto(
+                //               fontWeight: FontWeight.w900,
+                //               color: firstColor,
+                //               fontSize: 12.0)),
+                //       const WidgetSpan(
+                //           child: SizedBox(
+                //         width: 4.0,
+                //       )),
+                //       TextSpan(
+                //           text: "Two lemons",
+                //           style: GoogleFonts.roboto(
+                //               color: darkJungleGreenColor, fontSize: 12.0))
+                //     ])))
               ],
             ),
             Container(
@@ -333,18 +368,7 @@ class MyModalBottomSheet extends StatelessWidget {
             Container(
                 padding: const EdgeInsets.only(top: 10.0, left: 19.0),
                 child: Text(
-                  "Here’s an impressive pomegranate cocktail: this Pomegranate "
-                  "Gin Fizz! The Gin Fizz is one of our favorite classic "
-                  "cocktails: sweet tart and refreshing, with a festive egg"
-                  " white foam. Take it over the top with this pomegranate "
-                  "spin: it elevates the sweet tart flavor and gives the "
-                  "drink a brilliant jewel-toned color!"
-                  "Here’s an impressive pomegranate cocktail: this Pomegranate "
-                  "Gin Fizz! The Gin Fizz is one of our favorite classic "
-                  "cocktails: sweet tart and refreshing, with a festive egg"
-                  " white foam. Take it over the top with this pomegranate "
-                  "spin: it elevates the sweet tart flavor and gives the "
-                  "drink a brilliant jewel-toned color!",
+                  howToMake,
                   style: GoogleFonts.roboto(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w400,

@@ -126,7 +126,13 @@ class _KarhaiRecipesState extends State<KarhaiRecipes> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                            const RecipeDetailsScreen()));
+                                             RecipeDetailsScreen(
+                                               image: snapshot.data![index].image.toString(),
+                                               recipeName: snapshot.data![index].productName.toString(),
+                                               category: snapshot.data![index].categories.toString(),
+                                               ingredients: snapshot.data![index].ingredients.toString(),
+                                               howToMake: snapshot.data![index].makeRecipe.toString(),
+                                             )));
                                   },
                                   child: Container(
                                     height: 270,
