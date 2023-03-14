@@ -375,9 +375,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
+                 ActionChip(
+                  onPressed: (){},
+                    label: const Text("Add Your Bio", style: TextStyle(
+                    color: darkJungleGreenColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 17),)),
                 const SizedBox(
                   height: 9.0,
                 ),
+
                 MaterialButton(
                   onPressed: () {
                     print(_formKey.currentState!.validate());
@@ -385,13 +392,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       print(_formKey.currentState!.validate());
                       print("Success");
                       print("Image ${pickedImage!.path}");
-                      apiScreen.register(
+                      apiScreen.registerUser(
                         usernameController.text.toString(),
                         emailController.text.toString(),
                         fNameController.text.toString(),
                         passwordController.text.toString(),
                         confirmPasswordController.text.toString(),
-                        imagePath,
+                        pickedImage!.path,
                         context,
                       );
                       usernameController.clear();

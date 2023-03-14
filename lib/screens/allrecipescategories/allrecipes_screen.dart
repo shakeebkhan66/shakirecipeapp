@@ -36,13 +36,13 @@ class _AllRecipesScreenState extends State<AllRecipes> {
   }
 
 
-  changeStatus(bool hello, int recipeID){
-    if(this.recipeID == recipeID) {
-      setState(() {
-        this.hello = !hello;
-      });
-    }return;
-  }
+  // changeStatus(bool hello, int recipeID){
+  //   if(this.recipeID == recipeID) {
+  //     setState(() {
+  //       this.hello = !hello;
+  //     });
+  //   }return;
+  // }
 
   @override
   void initState() {
@@ -617,7 +617,7 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                   children: [
                                     IconButton(
                                         onPressed: () {
-                                          changeStatus(hello, recipeID!);
+                                          // changeStatus(hello, recipeID!);
                                         },
                                         icon: hello == false ? const Icon(
                                           Icons.favorite_outline_outlined,

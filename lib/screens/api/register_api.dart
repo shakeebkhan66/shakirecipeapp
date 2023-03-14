@@ -7,12 +7,13 @@ import '../bottomnavigationbar.dart';
 import '../models/AllRecipesModel.dart';
 import '../models/ProfileDataModel.dart';
 import '../sharedpreference/sharedpref_class.dart';
+import 'dart:io';
 
 // TODO INSTANCE OF ALL RECIPE MODEL CLASS
 AllRecipesModel allRecipesModel = AllRecipesModel();
 
 class ApiScreen {
-  String baseUrl = "http://192.168.1.34:8000";
+  String baseUrl = "http://192.168.1.39:8000";
 
   // TODO INSTANCE OF ALL RECIPE MODEL CLASS
   List<AllRecipesModel> allRecipes = [];
@@ -21,42 +22,89 @@ class ApiScreen {
   List<ProfileDataModel> profileDataList = [];
 
 // TODO Register APi
-  register(String username, email, fullName, password, confirmPassword, image,
-      context) async {
-    print("My username $username");
-    print("My username $email");
-    print("My username $fullName");
-    print("My username $password");
-    print("My username $confirmPassword");
+//   register(String username, email, fullName, password, confirmPassword,
+//       File image,
+//       context) async {
+//     print("My username $username");
+//     print("My username $email");
+//     print("My username $fullName");
+//     print("My username $password");
+//     print("My username $confirmPassword");
+//     print("Image $image");
+//
+//     Map<String, dynamic> registerBody = {
+//       "username": username,
+//       "email": email,
+//       "fullname": fullName,
+//       "password": password,
+//       "confirmPassword": confirmPassword,
+//       "image": image.toString(),
+//     };
+//
+//     try {
+//       final response = await http.post(
+//         Uri.parse('http://192.168.1.39:8000/api/register/'),
+//             body: {
+//           "username": username,
+//           "email": email,
+//           "fullname": fullName,
+//           "password": password,
+//           "confirmPassword": confirmPassword,
+//               "image": base64Encode(image.readAsBytesSync()),
+//         },
+//
+//         // headers: <String, String>{'Content-Type': 'application/json'},
+//         // body: jsonEncode(registerBody),
+//       );
+//
+//       if (response.statusCode == 200) {
+//         var data = jsonDecode(response.body.toString());
+//         print("Data $data");
+//         print("Register Successfully");
+//         Fluttertoast.showToast(
+//             msg: "Register Successfully",
+//             backgroundColor: Colors.green,
+//             textColor: Colors.white,
+//             fontSize: 18);
+//         Navigator.pushNamed(context, LoginScreen.routeName);
+//       } else {
+//         print("Failed");
+//         Fluttertoast.showToast(
+//             msg: response.body,
+//             backgroundColor: Colors.redAccent,
+//             textColor: Colors.white,
+//             fontSize: 18);
+//       }
+//     } catch (e) {
+//       print(e.toString());
+//       Fluttertoast.showToast(
+//           msg: e.toString(),
+//           backgroundColor: Colors.redAccent,
+//           textColor: Colors.white,
+//           fontSize: 18);
+//     }
+//   }
 
-    Map<String, dynamic> registerBody = {
-      "username": username,
-      "email": email,
-      "fullname": fullName,
-      "password": password,
-      "confirmPassword": confirmPassword,
-      "image": image,
-    };
+  // TODO Register Api with Image
 
-    try {
-      final response = await http.post(
-        Uri.parse('http://192.168.1.34:8000/api/register/'),
-            body: {
-          "username": username,
-          "email": email,
-          "fullname": fullName,
-          "password": password,
-          "confirmPassword": confirmPassword,
-              "image": image,
-        },
+  registerUser(username, email, fullname, password, confirmPassword, image, context) async{
+    var uri = Uri.parse('http://192.168.1.39:8000/api/register/');
+    var request = http.MultipartRequest('POST', uri);
+    request.fields['username'] = username.toString();
+    request.fields['email'] = email.toString();
+    request.fields['fullname'] = fullname.toString();
+    request.fields['password'] = password.toString();
+    request.fields['confirmPassword'] = confirmPassword.toString();
 
-        // headers: <String, String>{'Content-Type': 'application/json'},
-        // body: jsonEncode(registerBody),
-      );
+    request.files.add(await http.MultipartFile.fromPath(
+        'image', image));
+    var response = await request.send();
+    var responsed = await http.Response.fromStream(response);
 
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body.toString());
-        print("Data $data");
+    try{
+      if(responsed.statusCode == 200){
+        final responsedData = json.decode(responsed.body);
+        print("Data $responsedData");
         print("Register Successfully");
         Fluttertoast.showToast(
             msg: "Register Successfully",
@@ -64,15 +112,15 @@ class ApiScreen {
             textColor: Colors.white,
             fontSize: 18);
         Navigator.pushNamed(context, LoginScreen.routeName);
-      } else {
+      }else{
         print("Failed");
         Fluttertoast.showToast(
-            msg: response.body,
+            msg: responsed.body,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             fontSize: 18);
       }
-    } catch (e) {
+    }catch(e){
       print(e.toString());
       Fluttertoast.showToast(
           msg: e.toString(),
@@ -94,7 +142,7 @@ class ApiScreen {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.34:8000/api/login/'),
+        Uri.parse('http://192.168.1.39:8000/api/login/'),
         headers: <String, String>{'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
@@ -147,7 +195,7 @@ class ApiScreen {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.34:8000/api/change_password/'),
+        Uri.parse('http://192.168.1.39:8000/api/change_password/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -191,7 +239,7 @@ class ApiScreen {
   // TODO Get All Recipes Api
   Future<List<AllRecipesModel>> getAllRecipes(context) async {
     final response = await http.get(
-      Uri.parse('http://192.168.1.34:8000/api/allrecipes/'),
+      Uri.parse('http://192.168.1.39:8000/api/allrecipes/'),
     );
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
@@ -212,7 +260,7 @@ class ApiScreen {
   Future<List<ProfileDataModel>> getProfileData(context) async {
     var accessToken = MySharedPrefClass.preferences?.getString('Access_Token');
     final response = await http.get(
-      Uri.parse('http://192.168.1.34:8000/api/profile/'),
+      Uri.parse('http://192.168.1.39:8000/api/profile/'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Accept': 'application/json',

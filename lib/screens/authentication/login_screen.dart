@@ -106,6 +106,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       text: "Password"),
                   MaterialButton(
+                    splashColor: secondColor,
+                    hoverColor: firstColor,
+                    minWidth: 150.0,
+                    height: 30.0,
+                    color: firstColor.withOpacity(0.8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(9.0),
+                    ),
                     onPressed: () {
                       print(_formKey.currentState!.validate());
                       if (_formKey.currentState!.validate()) {
@@ -123,10 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       // Navigator.pushNamed(context, BottomNavigationBarScreen.routeName);
                     },
-                    splashColor: secondColor,
-                    hoverColor: firstColor,
-                    minWidth: 180,
-                    color: firstColor.withOpacity(0.8),
                     child: Text(
                       "Log in",
                       style: GoogleFonts.oswald(
