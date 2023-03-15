@@ -397,6 +397,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                           itemBuilder: (context, index) {
                             var name = snapshot.data![index].user!.fullname.toString();
                             var image = snapshot.data![index].user!.image.toString();
+                            var bio = snapshot.data![index].user!.bio.toString();
                             print("Image $image");
                             var recipes = snapshot.data![index].recipes;
                             var length = snapshot.data?.length;
@@ -475,11 +476,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                       Container(
                                           alignment: Alignment.topLeft,
                                           padding: const EdgeInsets.only(left: 17.0, top: 10.0),
-                                          child: Text(
-                                            "Cars Lover...\nI'm a flutter developer having experience"
-                                                " of more than 1 year in industry. Have experience of "
-                                                "video editing, django rest framework api, python, "
-                                                "logo designing.",
+                                          child: Text(bio,
                                             style: GoogleFonts.roboto(
                                                 fontSize: 12.0, color: Colors.black87),
                                           )),

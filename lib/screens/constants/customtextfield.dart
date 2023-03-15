@@ -71,8 +71,9 @@ class CustomTextField1 extends StatelessWidget {
   String? hintText;
   String? labelText;
   IconData? icon;
+  final TextEditingController? myController;
 
-  CustomTextField1({Key? key, required this.hintText, this.labelText, this.icon}) : super(key: key);
+  CustomTextField1({Key? key, required this.hintText, this.labelText, this.icon, this.myController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class CustomTextField1 extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextFormField(
         cursorColor: firstColor,
+        controller: myController,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: firstColor,),
             hintText: hintText,
@@ -101,7 +103,8 @@ class CustomTextField1 extends StatelessWidget {
 
 class CustomTextFieldIncreaseSize extends StatelessWidget {
   String? text;
-  CustomTextFieldIncreaseSize({Key? key, required this.text}) : super(key: key);
+  final TextEditingController? myController;
+  CustomTextFieldIncreaseSize({Key? key, required this.text, this.myController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +112,7 @@ class CustomTextFieldIncreaseSize extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TextFormField(
         maxLines: 10,
+        controller: myController,
         decoration: InputDecoration(
             hintText: text,
             hintStyle: TextStyle(color: firstColor.withOpacity(0.5)),

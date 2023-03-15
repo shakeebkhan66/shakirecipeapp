@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myreceipeapp/screens/constants/spinkit_loading_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../api/register_api.dart';
 import '../constants/colors.dart';
@@ -25,13 +26,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
   // TODO TextEditingControllers
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController fNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
 
   // TODO Email Validator Regex
   RegExp regExpEmail = RegExp(
@@ -41,22 +42,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // TODO Password Validation Regex
   RegExp regexPassword =
-  RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
   // TODO Form Validator Key
   final _formKey = GlobalKey<FormState>();
 
   // TODO Instance of ApiScreen
   ApiScreen apiScreen = ApiScreen();
+
   bool isPassword = true;
   bool isConfirmPassword = true;
   File? pickedImage;
   String? imagePath;
-
+  bool isLoading = false;
 
   // TODO Image Picker
   Future getImage(ImageSource source) async {
-
     PermissionStatus cameraStatus = await Permission.camera.request();
     if (cameraStatus == PermissionStatus.granted) {
       Fluttertoast.showToast(msg: "Permission Granted");
@@ -65,15 +66,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
           imageCropperView(File(value.path));
         }
       });
-    }
-    else if (cameraStatus == PermissionStatus.denied) {
-      Fluttertoast.showToast(msg: "You need to give camera permission to pick image");
-    }
-    else if(cameraStatus == PermissionStatus.permanentlyDenied) {
-      Fluttertoast.showToast(msg: "Now you should go in app setting to give permission");
+    } else if (cameraStatus == PermissionStatus.denied) {
+      Fluttertoast.showToast(
+          msg: "You need to give camera permission to pick image");
+    } else if (cameraStatus == PermissionStatus.permanentlyDenied) {
+      Fluttertoast.showToast(
+          msg: "Now you should go in app setting to give permission");
       openAppSettings();
-    }return;
-
+    }
+    return;
   }
 
   // TODO Image Cropper
@@ -115,11 +116,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading ? Loading()  : Scaffold(
       backgroundColor: secondColor,
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -239,8 +238,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       }
                     },
-                    text: "Full Name"
-                ),
+                    text: "Full Name"),
                 const SizedBox(height: 10.0),
                 CustomTextField(
                     validator: (String? value) {
@@ -251,8 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       }
                     },
                     myController: usernameController,
-                    text: "Username"
-                ),
+                    text: "Username"),
                 const SizedBox(height: 10.0),
                 CustomTextFieldPassword(
                   isObscure: isPassword,
@@ -264,9 +261,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       });
                     },
                     icon: Icon(
-                      isPassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
+                      isPassword ? Icons.visibility_off : Icons.visibility,
                       color: isPassword ? firstColor : Colors.blueGrey,
                     ),
                   ),
@@ -307,105 +302,176 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       }
                     },
-                    text: "Confirm Password"
-                ),
+                    text: "Confirm Password"),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       pickedImage != null ? const Text("Picked Done", style: TextStyle(
-                          color: darkJungleGreenColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17),) : const Text("Add Image", style: TextStyle(
-                           color: darkJungleGreenColor,
-                           fontWeight: FontWeight.w500,
-                           fontSize: 17),),
+                      pickedImage != null
+                          ? const Text(
+                              "Picked Done",
+                              style: TextStyle(
+                                  color: darkJungleGreenColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17),
+                            )
+                          : const Text(
+                              "Add Image",
+                              style: TextStyle(
+                                  color: darkJungleGreenColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17),
+                            ),
                       InkWell(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) =>
-                                AlertDialog(
-                                  title: const Text("Select One",
-                                    style: TextStyle(fontSize: 20.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: darkJungleGreenColor),),
-                                  actions: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .spaceEvenly,
-                                      children: [
-                                        TextButton(
-                                            onPressed: () {
-                                              getImage(ImageSource.camera);
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Camera",
-                                              style: TextStyle(fontSize: 15.0,
-                                                  color: Colors.black87),)
-                                        ),
-                                        TextButton(
-                                            onPressed: () {
-                                              getImage(ImageSource.gallery);
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Gallery",
-                                              style: TextStyle(fontSize: 15.0,
-                                                  color: Colors.black87),)
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text(
+                                  "Select One",
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: darkJungleGreenColor),
                                 ),
-                          );
-                        },
-                        child: pickedImage != null ? CircleAvatar(
-                          radius: 30.0,
-                          backgroundColor: Colors.white,
-                          child: ClipOval(
-                              child: Image.file(File(pickedImage!.path), fit: BoxFit.cover,)),
-                        ) : CircleAvatar(
-                          radius: 30.0,
-                          backgroundColor: Colors.white,
-                          child: Image.asset("assets/images/image.png"),
-                        )
-                      )
+                                actions: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            getImage(ImageSource.camera);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Camera",
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Colors.black87),
+                                          )),
+                                      TextButton(
+                                          onPressed: () {
+                                            getImage(ImageSource.gallery);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Gallery",
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Colors.black87),
+                                          )),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          child: pickedImage != null
+                              ? CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundColor: Colors.white,
+                                  child: ClipOval(
+                                      child: Image.file(
+                                    File(pickedImage!.path),
+                                    fit: BoxFit.cover,
+                                  )),
+                                )
+                              : CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundColor: Colors.white,
+                                  child: Image.asset("assets/images/image.png"),
+                                ))
                     ],
                   ),
                 ),
-                 ActionChip(
-                  onPressed: (){},
-                    label: const Text("Add Your Bio", style: TextStyle(
-                    color: darkJungleGreenColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17),)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: ActionChip(
+                          label: const Text('Add Your Bio'),
+                          avatar: const Icon(
+                            Icons.edit,
+                            size: 18.0,
+                            color: facebookLogoColor,
+                          ),
+                          tooltip: "Add Your Bio",
+                          elevation: 1.0,
+                          pressElevation: 20,
+                          shadowColor: firstColor,
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: TextFormField(
+                                        controller: bioController,
+                                        maxLines: 8,
+                                        cursorColor: firstColor,
+                                        style: const TextStyle(
+                                            fontSize: 17.0,
+                                            color: darkJungleGreenColor),
+                                        decoration: const InputDecoration(
+                                          hintText: "Enter your bio",
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: darkJungleGreenColor),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: firstColor),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    actions: [
+                                      MaterialButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        color: facebookLogoColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                        ),
+                                        child: const Text(
+                                          "Submit",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
+                          })),
+                ),
                 const SizedBox(
                   height: 9.0,
                 ),
-
                 MaterialButton(
                   onPressed: () {
-                    print(_formKey.currentState!.validate());
                     if (_formKey.currentState!.validate()) {
-                      print(_formKey.currentState!.validate());
-                      print("Success");
-                      print("Image ${pickedImage!.path}");
+                      setState(() {
+                        isLoading = false;
+                      });
+                      // print("Success");
+                      // print("Image ${pickedImage!.path}");
                       apiScreen.registerUser(
                         usernameController.text.toString(),
                         emailController.text.toString(),
                         fNameController.text.toString(),
                         passwordController.text.toString(),
                         confirmPasswordController.text.toString(),
+                        bioController.text.toString(),
                         pickedImage!.path,
                         context,
                       );
-                      usernameController.clear();
-                      emailController.clear();
-                      fNameController.clear();
-                      passwordController.clear();
-                      confirmPasswordController.clear();
+
                     } else {
                       print("Failed to validate");
                     }
@@ -420,8 +486,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   color: firstColor.withOpacity(0.8),
                   child: Text(
                     "Sign Up",
-                    style: GoogleFonts.oswald(
-                        color: secondColor, fontSize: 13.0),
+                    style:
+                        GoogleFonts.oswald(color: secondColor, fontSize: 13.0),
                   ),
                 ),
                 const SizedBox(
@@ -450,8 +516,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: Colors.black87, fontSize: 15.0)),
                           const WidgetSpan(
                               child: SizedBox(
-                                width: 5.0,
-                              )),
+                            width: 5.0,
+                          )),
                           TextSpan(
                               text: "Log in",
                               style: GoogleFonts.roboto(

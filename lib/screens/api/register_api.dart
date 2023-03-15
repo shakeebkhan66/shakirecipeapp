@@ -87,7 +87,7 @@ class ApiScreen {
 
   // TODO Register Api with Image
 
-  registerUser(username, email, fullname, password, confirmPassword, image, context) async{
+  registerUser(username, email, fullname, password, confirmPassword, bio, image, context) async{
     var uri = Uri.parse('http://192.168.1.39:8000/api/register/');
     var request = http.MultipartRequest('POST', uri);
     request.fields['username'] = username.toString();
@@ -95,6 +95,7 @@ class ApiScreen {
     request.fields['fullname'] = fullname.toString();
     request.fields['password'] = password.toString();
     request.fields['confirmPassword'] = confirmPassword.toString();
+    request.fields['bio'] = bio.toString();
 
     request.files.add(await http.MultipartFile.fromPath(
         'image', image));
