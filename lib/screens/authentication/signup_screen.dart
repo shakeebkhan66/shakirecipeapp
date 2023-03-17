@@ -472,7 +472,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         context,
                       );
 
-                    } else {
+                    }
+                    else {
                       print("Failed to validate");
                     }
                   },

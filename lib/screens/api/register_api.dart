@@ -87,6 +87,7 @@ class ApiScreen {
 
   // TODO Register Api with Image
 
+  // TODO Register User Api
   registerUser(username, email, fullname, password, confirmPassword, bio, image, context) async{
     var uri = Uri.parse('http://192.168.1.39:8000/api/register/');
     var request = http.MultipartRequest('POST', uri);
@@ -281,6 +282,50 @@ class ApiScreen {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Failed to get")));
       return profileDataList;
+    }
+  }
+
+  // TODO Create Recipe Api
+  createRecipe(productName, ingredients, makeRecipe, categories, image, context) async{
+    var uri = Uri.parse('http://192.168.1.39:8000/api/createrecipe/');
+    var request = http.MultipartRequest('POST', uri);
+    request.fields['productName'] = productName.toString();
+    request.fields['ingredients'] = ingredients.toString();
+    request.fields['makeRecipe'] = makeRecipe.toString();
+    request.fields['categories'] = categories.toString();
+    // request.fields['username'] = username.toString();
+
+    request.files.add(await http.MultipartFile.fromPath(
+        'image', image));
+    var response = await request.send();
+    var responsed = await http.Response.fromStream(response);
+
+    try{
+      if(responsed.statusCode == 200){
+        final responsedData = json.decode(responsed.body);
+        print("Data $responsedData");
+        print("Register Successfully");
+        Fluttertoast.showToast(
+            msg: "Created Successfully",
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 18);
+        Navigator.pushNamed(context, LoginScreen.routeName);
+      }else{
+        print("Failed");
+        Fluttertoast.showToast(
+            msg: responsed.body,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            fontSize: 18);
+      }
+    }catch(e){
+      print(e.toString());
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          backgroundColor: Colors.redAccent,
+          textColor: Colors.white,
+          fontSize: 18);
     }
   }
 }
