@@ -106,6 +106,8 @@ class ApiScreen {
     try{
       if(responsed.statusCode == 200){
         final responsedData = json.decode(responsed.body);
+        MySharedPrefClass.preferences
+            ?.setString("Username", responsedData["data"]["detail"]);
         print("Data $responsedData");
         print("Register Successfully");
         Fluttertoast.showToast(
@@ -154,9 +156,11 @@ class ApiScreen {
         print("Data $data");
         print("Login Successfully");
         print("Hello ${data["token"]["access"]}");
+        print("Username ${data["details"]["username"]}");
         MySharedPrefClass.preferences!.setBool("loggedIn", true);
         MySharedPrefClass.preferences
             ?.setString("Access_Token", data["token"]["access"]);
+        MySharedPrefClass.preferences!.setString("Username", data["details"]["username"]);
         Fluttertoast.showToast(
             msg: "Login Successfully",
             backgroundColor: Colors.green,
@@ -286,14 +290,14 @@ class ApiScreen {
   }
 
   // TODO Create Recipe Api
-  createRecipe(productName, ingredients, makeRecipe, categories, image, context) async{
+  createRecipe(productName, username, ingredients, makeRecipe, categories, image, context) async{
     var uri = Uri.parse('http://192.168.1.39:8000/api/createrecipe/');
     var request = http.MultipartRequest('POST', uri);
     request.fields['productName'] = productName.toString();
     request.fields['ingredients'] = ingredients.toString();
     request.fields['makeRecipe'] = makeRecipe.toString();
     request.fields['categories'] = categories.toString();
-    // request.fields['username'] = username.toString();
+    request.fields['username'] = username.toString();
 
     request.files.add(await http.MultipartFile.fromPath(
         'image', image));

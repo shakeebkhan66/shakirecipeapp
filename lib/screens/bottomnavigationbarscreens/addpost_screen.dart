@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import '../constants/colors.dart';
 import '../constants/customtextfield.dart';
+import '../sharedpreference/sharedpref_class.dart';
 
 class AddPostScreen extends StatefulWidget {
   static const routeName = '/addPostScreen';
@@ -31,7 +32,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   // TODO TextEditingControllers
   TextEditingController productNameController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
+  // TextEditingController usernameController = TextEditingController();
   TextEditingController ingredientsController = TextEditingController();
   TextEditingController howToMakeController = TextEditingController();
 
@@ -133,71 +134,70 @@ class _AddPostScreenState extends State<AddPostScreen> {
               key: formKey,
               child: Column(
                 children: [
-                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                    ),
-                    child: InkWell(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              title: const Text(
-                                "Select One",
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: darkJungleGreenColor),
+                  Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                      ),
+                      child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text(
+                                  "Select One",
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: darkJungleGreenColor),
+                                ),
+                                actions: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            getImage(ImageSource.camera);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Camera",
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Colors.black87),
+                                          )),
+                                      TextButton(
+                                          onPressed: () {
+                                            getImage(ImageSource.gallery);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Gallery",
+                                            style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Colors.black87),
+                                          )),
+                                    ],
+                                  )
+                                ],
                               ),
-                              actions: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          getImage(ImageSource.camera);
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Camera",
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Colors.black87),
-                                        )),
-                                    TextButton(
-                                        onPressed: () {
-                                          getImage(ImageSource.gallery);
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Gallery",
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Colors.black87),
-                                        )),
-                                  ],
+                            );
+                          },
+                          child: pickedImage != null
+                              ? CircleAvatar(
+                                  radius: 50.0,
+                                  backgroundColor: Colors.white,
+                                  child: ClipOval(
+                                      child: Image.file(
+                                    File(pickedImage!.path),
+                                    fit: BoxFit.cover,
+                                  )),
                                 )
-                              ],
-                            ),
-                          );
-                        },
-                        child: pickedImage != null
-                            ? CircleAvatar(
-                          radius: 50.0,
-                          backgroundColor: Colors.white,
-                          child: ClipOval(
-                              child: Image.file(
-                                File(pickedImage!.path),
-                                fit: BoxFit.cover,
-                              )),
-                        )
-                            : CircleAvatar(
-                          radius: 50.0,
-                          backgroundColor: Colors.white,
-                          child: Image.asset("assets/images/image.png"),
-                        ))
-                  ),
+                              : CircleAvatar(
+                                  radius: 50.0,
+                                  backgroundColor: Colors.white,
+                                  child: Image.asset("assets/images/image.png"),
+                                ))),
                   const SizedBox(height: 10.0),
                   CustomTextField1(
                     hintText: "product name",
@@ -212,21 +212,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       }
                     },
                   ),
-                  CustomTextField1(
-                    hintText: "username",
-                    labelText: "enter your username",
-                    icon: Icons.person,
-                    myController: usernameController,
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return "Field is required";
-                      } else if (value.length < 3) {
-                        return "Characters should be at least 3";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
+                  // CustomTextField1(
+                  //   hintText: "username",
+                  //   labelText: "enter your username",
+                  //   icon: Icons.person,
+                  //   myController: usernameController,
+                  //   validator: (String? value) {
+                  //     if (value!.isEmpty) {
+                  //       return "Field is required";
+                  //     } else if (value.length < 3) {
+                  //       return "Characters should be at least 3";
+                  //     } else {
+                  //       return null;
+                  //     }
+                  //   },
+                  // ),
                   const SizedBox(height: 10.0),
                   Container(
                     alignment: Alignment.center,
@@ -298,22 +298,27 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   MaterialButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        print("ProductName ${productNameController.text.toString()}");
-                        print("ProductName ${ingredientsController.text.toString()}");
-                        print("ProductName ${howToMakeController.text.toString()}");
-                        print("ProductName ${selectedCategory}");
+                        print(
+                            "ProductName ${productNameController.text.toString()}");
+                        print(
+                            "ingredientsController ${ingredientsController.text.toString()}");
+                        print(
+                            "howToMakeController ${howToMakeController.text.toString()}");
+                        print("selectedCategory ${selectedCategory}");
+                        // print("Username ${usernameController.text.toString()}");
+                        var username = MySharedPrefClass.preferences!
+                            .getString("Username");
                         print("ProductName ${pickedImage!.path},");
                         apiScreen.createRecipe(
                           productNameController.text.toString(),
+                          username,
                           ingredientsController.text.toString(),
                           howToMakeController.text.toString(),
                           selectedCategory,
-                          // usernameController.text.toString(),
                           pickedImage!.path,
                           context,
                         );
-                      }
-                      else {
+                      } else {
                         print("Failed to validate");
                       }
                     },
@@ -327,8 +332,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ),
                     child: Text(
                       "Publish",
-                      style:
-                          GoogleFonts.oswald(color: secondColor, fontSize: 15.0),
+                      style: GoogleFonts.oswald(
+                          color: secondColor, fontSize: 15.0),
                     ),
                   ),
                   const SizedBox(
