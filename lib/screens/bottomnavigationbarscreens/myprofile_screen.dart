@@ -15,6 +15,7 @@ import '../models/ProfileDataModel.dart';
 import '../models/popupmenumodel.dart';
 import '../models/recipesmodel_class.dart';
 import '../sharedpreference/sharedpref_class.dart';
+import 'home_screen.dart';
 
 class MyProfileScreen extends StatefulWidget {
   static const routeName = '/myProfileScreen';
@@ -85,7 +86,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                   MaterialButton(
                     color: Colors.green,
                     onPressed: () {
-                      Navigator.pushNamed(context, MyProfileScreen.routeName);
+                      Navigator.pushNamed(context, HomeScreen.routeName);
                     },
                     child: const Text(
                       "No",

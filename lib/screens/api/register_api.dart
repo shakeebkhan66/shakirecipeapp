@@ -2,18 +2,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
 import '../authentication/login_screen.dart';
 import '../bottomnavigationbar.dart';
 import '../models/AllRecipesModel.dart';
 import '../models/ProfileDataModel.dart';
 import '../sharedpreference/sharedpref_class.dart';
-import 'dart:io';
 
 // TODO INSTANCE OF ALL RECIPE MODEL CLASS
 AllRecipesModel allRecipesModel = AllRecipesModel();
 
 class ApiScreen {
-  String baseUrl = "http://192.168.1.39:8000";
+  String baseUrl = "http://192.168.100.174:8000";
 
   // TODO INSTANCE OF ALL RECIPE MODEL CLASS
   List<AllRecipesModel> allRecipes = [];
@@ -88,8 +88,13 @@ class ApiScreen {
   // TODO Register Api with Image
 
   // TODO Register User Api
+
+  // TODO REGISTER USER
+
+
+  // TODO REGISTER USER API
   registerUser(username, email, fullname, password, confirmPassword, bio, image, context) async{
-    var uri = Uri.parse('http://192.168.1.39:8000/api/register/');
+    var uri = Uri.parse('$baseUrl/api/register/');
     var request = http.MultipartRequest('POST', uri);
     request.fields['username'] = username.toString();
     request.fields['email'] = email.toString();
@@ -134,7 +139,7 @@ class ApiScreen {
     }
   }
 
-  // TODO Login APi
+  // TODO LOGIN API
   login(String email, password, context) async {
     print("My Email $email");
     print("My Password $password");
@@ -146,7 +151,7 @@ class ApiScreen {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.39:8000/api/login/'),
+        Uri.parse('$baseUrl/api/login/'),
         headers: <String, String>{'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
@@ -189,7 +194,7 @@ class ApiScreen {
     }
   }
 
-  // TODO Change Password Api
+  // TODO CHANGE PASSWORD API
   changePassword(String password, confirmPassword, token, context) async {
     print("My Password $password");
     print("My ConfirmPassword $confirmPassword");
@@ -201,7 +206,7 @@ class ApiScreen {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.39:8000/api/change_password/'),
+        Uri.parse('$baseUrl/api/change_password/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -242,10 +247,10 @@ class ApiScreen {
     }
   }
 
-  // TODO Get All Recipes Api
+  // TODO GET ALL RECIPE API
   Future<List<AllRecipesModel>> getAllRecipes(context) async {
     final response = await http.get(
-      Uri.parse('http://192.168.1.39:8000/api/allrecipes/'),
+      Uri.parse('$baseUrl/api/allrecipes/'),
     );
     var data = jsonDecode(response.body.toString());
     if (response.statusCode == 200) {
@@ -262,11 +267,11 @@ class ApiScreen {
     }
   }
 
-  // TODO Profile Data of User
+  // TODO PROFILE DATA OF USER
   Future<List<ProfileDataModel>> getProfileData(context) async {
     var accessToken = MySharedPrefClass.preferences?.getString('Access_Token');
     final response = await http.get(
-      Uri.parse('http://192.168.1.39:8000/api/profile/'),
+      Uri.parse('$baseUrl/api/profile/'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -289,9 +294,9 @@ class ApiScreen {
     }
   }
 
-  // TODO Create Recipe Api
+  // TODO CREATE RECIPE API
   createRecipe(productName, username, ingredients, makeRecipe, categories, image, context) async{
-    var uri = Uri.parse('http://192.168.1.39:8000/api/createrecipe/');
+    var uri = Uri.parse('$baseUrl/api/createrecipe/');
     var request = http.MultipartRequest('POST', uri);
     request.fields['productName'] = productName.toString();
     request.fields['ingredients'] = ingredients.toString();
@@ -314,7 +319,7 @@ class ApiScreen {
             backgroundColor: Colors.green,
             textColor: Colors.white,
             fontSize: 18);
-        Navigator.pushNamed(context, LoginScreen.routeName);
+        Navigator.pushNamed(context, HomeScreen.routeName);
       }else{
         print("Failed");
         Fluttertoast.showToast(

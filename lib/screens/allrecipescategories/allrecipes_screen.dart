@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myreceipeapp/screens/allrecipescategories/recipesdisplay/recipedetail_screen.dart';
 import 'package:share_plus/share_plus.dart';
@@ -616,6 +617,12 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                 Row(
                                   children: [
                                     IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                          Icons.thumb_up_alt_outlined,
+                                          size: 25.0,
+                                        )),
+                                    IconButton(
                                         onPressed: () {
                                           // changeStatus(hello, recipeID!);
                                         },
@@ -638,9 +645,10 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                     IconButton(
                                         onPressed: () {},
                                         icon: const Icon(
-                                          Icons.collections_bookmark,
+                                        FontAwesomeIcons.comment,
                                           size: 25.0,
-                                        ))
+                                        )),
+
                                   ],
                                 ),
                               ],
