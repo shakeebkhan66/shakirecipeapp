@@ -4,6 +4,7 @@ import 'package:myreceipeapp/screens/bottomnavigationbarscreens/addpost_screen.d
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/home_screen.dart';
 import 'package:myreceipeapp/screens/bottomnavigationbarscreens/myfavouriterecipes_screen.dart';
 import 'bottomnavigationbarscreens/myprofile_screen.dart';
+import 'bottomnavigationbarscreens/recipes_video_screen.dart';
 import 'constants/colors.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     // const SearchScreen(),
     const AddPostScreen(),
     const FavouriteRecipesScreen(),
+    const RecipesVideosScreen(),
     const MyProfileScreen(),
   ];
 
@@ -35,10 +37,11 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
         index: 0,
         height: 50.0,
         items: const <Widget>[
-          Icon(Icons.home, size: 25, color: darkJungleGreenColor,),
+          Icon(Icons.home, size: 25.0, color: darkJungleGreenColor,),
           // Icon(Icons.search, size: 25, color: darkJungleGreenColor,),
-          Icon(Icons.add_box, size: 25, color: darkJungleGreenColor,),
-          Icon(Icons.favorite, size: 25, color: darkJungleGreenColor,),
+          Icon(Icons.add_box, size: 25.0, color: darkJungleGreenColor,),
+          Icon(Icons.favorite, size: 25.0, color: darkJungleGreenColor,),
+          Icon(Icons.video_collection_sharp, size: 25.0, color: darkJungleGreenColor,),
           Icon(Icons.perm_contact_cal, size: 25, color: darkJungleGreenColor,),
         ],
         color: Colors.white,

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myreceipeapp/screens/allrecipescategories/recipesdisplay/recipedetail_screen.dart';
 import '../api/register_api.dart';
@@ -32,6 +33,7 @@ class _TeaRecipesState extends State<TeaRecipes> {
   @override
   void initState() {
     super.initState();
+    apiScreen.allRecipes.clear();
     refreshList();
   }
 
@@ -168,13 +170,6 @@ class _TeaRecipesState extends State<TeaRecipes> {
                                       errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
                                     ),
-
-                                    // Image.network(
-                                    //   baseUrl +
-                                    //       snapshot.data![index].image
-                                    //           .toString(),
-                                    //   fit: BoxFit.cover,
-                                    // )
                                   ),
                                 ),
                                 Row(
@@ -188,14 +183,14 @@ class _TeaRecipesState extends State<TeaRecipes> {
                                     IconButton(
                                         onPressed: () {},
                                         icon: const Icon(
-                                          Icons.share_rounded,
-                                          size: 25.0,
+                                          FontAwesomeIcons.comment,
+                                          size: 23.0,
                                         )),
                                     IconButton(
                                         onPressed: () {},
                                         icon: const Icon(
-                                          Icons.collections_bookmark,
-                                          size: 25.0,
+                                          Icons.share_rounded,
+                                          size: 23.0,
                                         ))
                                   ],
                                 ),

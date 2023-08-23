@@ -13,7 +13,7 @@ import '../sharedpreference/sharedpref_class.dart';
 AllRecipesModel allRecipesModel = AllRecipesModel();
 
 class ApiScreen {
-  String baseUrl = "http://192.168.100.174:8000";
+  String baseUrl = "http://192.168.163.185:8000";
 
   // TODO INSTANCE OF ALL RECIPE MODEL CLASS
   List<AllRecipesModel> allRecipes = [];
@@ -93,6 +93,8 @@ class ApiScreen {
 
 
   // TODO REGISTER USER API
+
+
   registerUser(username, email, fullname, password, confirmPassword, bio, image, context) async{
     var uri = Uri.parse('$baseUrl/api/register/');
     var request = http.MultipartRequest('POST', uri);
@@ -279,6 +281,7 @@ class ApiScreen {
       },
     );
     var data = jsonDecode(response.body.toString());
+    print("Profile $data");
     if (response.statusCode == 200) {
       print("Profile $data");
       // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Data get successfully")));
@@ -319,7 +322,7 @@ class ApiScreen {
             backgroundColor: Colors.green,
             textColor: Colors.white,
             fontSize: 18);
-        Navigator.pushNamed(context, HomeScreen.routeName);
+        Navigator.pushNamed(context, BottomNavigationBarScreen.routeName);
       }else{
         print("Failed");
         Fluttertoast.showToast(

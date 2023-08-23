@@ -11,6 +11,7 @@ import '../models/AllRecipesModel.dart';
 
 class AllRecipes extends StatefulWidget {
   static const routeName = '/allRecipesScreen';
+
   // final String itemName;
   const AllRecipes({Key? key}) : super(key: key);
 
@@ -27,7 +28,6 @@ class _AllRecipesScreenState extends State<AllRecipes> {
   bool hello = false;
   int? recipeID;
 
-
   // TODO Refresh List Function
   Future<void> refreshList() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -36,18 +36,10 @@ class _AllRecipesScreenState extends State<AllRecipes> {
     });
   }
 
-
-  // changeStatus(bool hello, int recipeID){
-  //   if(this.recipeID == recipeID) {
-  //     setState(() {
-  //       this.hello = !hello;
-  //     });
-  //   }return;
-  // }
-
   @override
   void initState() {
     super.initState();
+    apiScreen.allRecipes.clear();
     refreshList();
   }
 
@@ -74,419 +66,6 @@ class _AllRecipesScreenState extends State<AllRecipes> {
               )),
         ),
         body: SafeArea(
-
-          // child: ListView(
-          //   physics: const BouncingScrollPhysics(),
-          //   children: [
-          //     const SizedBox(height: 15.0),
-          //     Row(
-          //       children: [
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Container(
-          //           decoration: BoxDecoration(
-          //               border: Border.all(color: firstColor),
-          //               borderRadius: BorderRadius.circular(25.0)),
-          //           child: CircleAvatar(
-          //             radius: 20.0,
-          //             child: Image.asset("assets/images/image.png"),
-          //           ),
-          //         ),
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Text(
-          //           "shakeeb_khan",
-          //           style: GoogleFonts.acme(
-          //               fontSize: 13.0, fontWeight: FontWeight.w200),
-          //         ),
-          //         const SizedBox(
-          //           width: 180.0,
-          //         ),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               CupertinoIcons.ellipsis_vertical,
-          //               color: firstColor,
-          //             ))
-          //       ],
-          //     ),
-          //     const SizedBox(height: 5.0),
-          //     InkWell(
-          //       onTap: () {
-          //         Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //                 builder: (context) => const RecipeDetailsScreen()));
-          //       },
-          //       child: Container(
-          //         height: 270,
-          //         width: MediaQuery.of(context).size.width,
-          //         decoration: BoxDecoration(boxShadow: [
-          //           BoxShadow(
-          //               color: firstColor.withOpacity(0.2),
-          //               offset: const Offset(0.0, 0.1),
-          //               blurRadius: 10.0)
-          //         ]),
-          //         child: Image.network(
-          //           "",
-          //           fit: BoxFit.cover,
-          //         ),
-          //       ),
-          //     ),
-          //     Row(
-          //       children: [
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.favorite_outline_outlined,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.share_rounded,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.collections_bookmark,
-          //               size: 25.0,
-          //             ))
-          //       ],
-          //     ),
-          //     Container(
-          //       padding: const EdgeInsets.only(left: 10),
-          //       child: Text(
-          //         "100 likes",
-          //         style: GoogleFonts.acme(fontWeight: FontWeight.w200),
-          //       ),
-          //     ),
-          //     const SizedBox(
-          //       height: 8.0,
-          //     ),
-          //     Row(
-          //       children: [
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Container(
-          //           decoration: BoxDecoration(
-          //               border: Border.all(color: firstColor),
-          //               borderRadius: BorderRadius.circular(25.0)),
-          //           child: CircleAvatar(
-          //             radius: 20.0,
-          //             child: Image.asset("assets/images/image.png"),
-          //           ),
-          //         ),
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Text(
-          //           "shakeeb_khan",
-          //           style: GoogleFonts.acme(
-          //               fontSize: 13.0, fontWeight: FontWeight.w200),
-          //         ),
-          //         const SizedBox(
-          //           width: 174.0,
-          //         ),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               CupertinoIcons.ellipsis_vertical,
-          //               color: firstColor,
-          //             ))
-          //       ],
-          //     ),
-          //     const SizedBox(height: 5.0),
-          //     Container(
-          //       height: 270,
-          //       width: MediaQuery.of(context).size.width,
-          //       decoration: BoxDecoration(boxShadow: [
-          //         BoxShadow(
-          //             color: firstColor.withOpacity(0.2),
-          //             offset: const Offset(0.0, 0.1),
-          //             blurRadius: 10.0)
-          //       ]),
-          //       child: Image.asset(
-          //         "assets/images/roti.jpg",
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //     Row(
-          //       children: [
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.favorite_outline_outlined,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.share_rounded,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.collections_bookmark,
-          //               size: 25.0,
-          //             ))
-          //       ],
-          //     ),
-          //     Container(
-          //       padding: const EdgeInsets.only(left: 10),
-          //       child: Text(
-          //         "110 likes",
-          //         style: GoogleFonts.acme(fontWeight: FontWeight.w200),
-          //       ),
-          //     ),
-          //     const SizedBox(
-          //       height: 8.0,
-          //     ),
-          //     Row(
-          //       children: [
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Container(
-          //           decoration: BoxDecoration(
-          //               border: Border.all(color: firstColor),
-          //               borderRadius: BorderRadius.circular(25.0)),
-          //           child: CircleAvatar(
-          //             radius: 20.0,
-          //             child: Image.asset("assets/images/image.png"),
-          //           ),
-          //         ),
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Text(
-          //           "aziz_bhutta",
-          //           style: GoogleFonts.acme(
-          //               fontSize: 13.0, fontWeight: FontWeight.w200),
-          //         ),
-          //         const SizedBox(
-          //           width: 180.0,
-          //         ),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               CupertinoIcons.ellipsis_vertical,
-          //               color: firstColor,
-          //             ))
-          //       ],
-          //     ),
-          //     const SizedBox(height: 5.0),
-          //     Container(
-          //       height: 270,
-          //       width: MediaQuery.of(context).size.width,
-          //       decoration: BoxDecoration(boxShadow: [
-          //         BoxShadow(
-          //             color: firstColor.withOpacity(0.2),
-          //             offset: Offset(0.0, 0.1),
-          //             blurRadius: 10.0)
-          //       ]),
-          //       child: Image.asset(
-          //         "assets/images/biryani.jpg",
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //     Row(
-          //       children: [
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.favorite_outline_outlined,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.share_rounded,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.collections_bookmark,
-          //               size: 25.0,
-          //             ))
-          //       ],
-          //     ),
-          //     Container(
-          //       padding: const EdgeInsets.only(left: 10),
-          //       child: Text(
-          //         "100 likes",
-          //         style: GoogleFonts.acme(fontWeight: FontWeight.w200),
-          //       ),
-          //     ),
-          //     const SizedBox(
-          //       height: 8.0,
-          //     ),
-          //     Row(
-          //       children: [
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Container(
-          //           decoration: BoxDecoration(
-          //               border: Border.all(color: firstColor),
-          //               borderRadius: BorderRadius.circular(25.0)),
-          //           child: CircleAvatar(
-          //             radius: 20.0,
-          //             child: Image.asset("assets/images/image.png"),
-          //           ),
-          //         ),
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Text(
-          //           "abdurrehman",
-          //           style: GoogleFonts.acme(
-          //               fontSize: 13.0, fontWeight: FontWeight.w200),
-          //         ),
-          //         const SizedBox(
-          //           width: 180.0,
-          //         ),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               CupertinoIcons.ellipsis_vertical,
-          //               color: firstColor,
-          //             ))
-          //       ],
-          //     ),
-          //     const SizedBox(height: 5.0),
-          //     Container(
-          //       height: 270,
-          //       width: MediaQuery.of(context).size.width,
-          //       decoration: BoxDecoration(boxShadow: [
-          //         BoxShadow(
-          //             color: firstColor.withOpacity(0.2),
-          //             offset: const Offset(0.0, 0.1),
-          //             blurRadius: 10.0)
-          //       ]),
-          //       child: Image.asset(
-          //         "assets/images/salad.jpg",
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //     Row(
-          //       children: [
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.favorite_outline_outlined,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.share_rounded,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.collections_bookmark,
-          //               size: 25.0,
-          //             ))
-          //       ],
-          //     ),
-          //     Container(
-          //       padding: const EdgeInsets.only(left: 10),
-          //       child: Text(
-          //         "100 likes",
-          //         style: GoogleFonts.acme(fontWeight: FontWeight.w200),
-          //       ),
-          //     ),
-          //     const SizedBox(
-          //       height: 8.0,
-          //     ),
-          //     Row(
-          //       children: [
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Container(
-          //           decoration: BoxDecoration(
-          //               border: Border.all(color: firstColor),
-          //               borderRadius: BorderRadius.circular(25.0)),
-          //           child: CircleAvatar(
-          //             radius: 20.0,
-          //             child: Image.asset("assets/images/image.png"),
-          //           ),
-          //         ),
-          //         const SizedBox(
-          //           width: 8.0,
-          //         ),
-          //         Text(
-          //           "wahid_ali",
-          //           style: GoogleFonts.acme(
-          //               fontSize: 13.0, fontWeight: FontWeight.w200),
-          //         ),
-          //         const SizedBox(
-          //           width: 180.0,
-          //         ),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               CupertinoIcons.ellipsis_vertical,
-          //               color: firstColor,
-          //             ))
-          //       ],
-          //     ),
-          //     const SizedBox(height: 5.0),
-          //     Container(
-          //       height: 270,
-          //       width: MediaQuery.of(context).size.width,
-          //       decoration: BoxDecoration(boxShadow: [
-          //         BoxShadow(
-          //             color: firstColor.withOpacity(0.2),
-          //             offset: const Offset(0.0, 0.1),
-          //             blurRadius: 10.0)
-          //       ]),
-          //       child: Image.asset(
-          //         "assets/images/cake.jpg",
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //     Row(
-          //       children: [
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.favorite_outline_outlined,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.share_rounded,
-          //               size: 25.0,
-          //             )),
-          //         IconButton(
-          //             onPressed: () {},
-          //             icon: const Icon(
-          //               Icons.collections_bookmark,
-          //               size: 25.0,
-          //             ))
-          //       ],
-          //     ),
-          //     Container(
-          //       padding: const EdgeInsets.only(left: 10),
-          //       child: Text(
-          //         "100 likes",
-          //         style: GoogleFonts.acme(fontWeight: FontWeight.w200),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-
           child: Column(
             children: [
               Expanded(
@@ -511,8 +90,9 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                           itemBuilder: (context, index) {
                             var category =
                                 snapshot.data![index].categories.toString();
-                           bool? favoriteRecipe = snapshot.data![index].favorite;
-                           recipeID = snapshot.data![index].id;
+                            bool? favoriteRecipe =
+                                snapshot.data![index].favorite;
+                            recipeID = snapshot.data![index].id;
                             print("Category" + category);
                             print("Fav $favoriteRecipe");
                             return Column(
@@ -566,11 +146,21 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 RecipeDetailsScreen(
-                                                  image: snapshot.data![index].image.toString(),
-                                                  recipeName: snapshot.data![index].productName.toString(),
-                                                  category: snapshot.data![index].categories.toString(),
-                                                  ingredients: snapshot.data![index].ingredients.toString(),
-                                                  howToMake: snapshot.data![index].makeRecipe.toString(),
+                                                  image: snapshot
+                                                      .data![index].image
+                                                      .toString(),
+                                                  recipeName: snapshot
+                                                      .data![index].productName
+                                                      .toString(),
+                                                  category: snapshot
+                                                      .data![index].categories
+                                                      .toString(),
+                                                  ingredients: snapshot
+                                                      .data![index].ingredients
+                                                      .toString(),
+                                                  howToMake: snapshot
+                                                      .data![index].makeRecipe
+                                                      .toString(),
                                                 )));
                                   },
                                   child: Container(
@@ -617,20 +207,21 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                 Row(
                                   children: [
                                     IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.thumb_up_alt_outlined,
-                                          size: 25.0,
-                                        )),
-                                    IconButton(
                                         onPressed: () {
                                           // changeStatus(hello, recipeID!);
                                         },
-                                        icon: hello == false ? const Icon(
-                                          Icons.favorite_outline_outlined,
-                                          size: 25.0,
-                                        ) : const Icon(Icons.favorite)
-                                    ),
+                                        icon: hello == false
+                                            ? const Icon(
+                                                Icons.favorite_outline_outlined,
+                                                size: 25.0,
+                                              )
+                                            : const Icon(Icons.favorite)),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                          FontAwesomeIcons.comment,
+                                          size: 23.0,
+                                        )),
                                     IconButton(
                                         onPressed: () {
                                           Share.share(
@@ -640,15 +231,8 @@ class _AllRecipesScreenState extends State<AllRecipes> {
                                         },
                                         icon: const Icon(
                                           Icons.share_rounded,
-                                          size: 25.0,
+                                          size: 23.0,
                                         )),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                        FontAwesomeIcons.comment,
-                                          size: 25.0,
-                                        )),
-
                                   ],
                                 ),
                               ],

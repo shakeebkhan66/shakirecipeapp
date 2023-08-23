@@ -164,8 +164,6 @@ class _MyProfileScreenState extends State<MyProfileScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    refreshList();
-
   }
 
   @override
@@ -414,6 +412,8 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                            Padding(
                                             padding: const EdgeInsets.only(
                                               top: 20,
+                                              right: 10.0,
+                                              left: 10.0
                                             ),
                                             child: CircleAvatar(
                                               radius: 40,
